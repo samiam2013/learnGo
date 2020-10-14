@@ -3,20 +3,19 @@ package main
 import "fmt"
 
 // Write functions that add, subtract, and multiply two numbers in their
-//  digit-list representation (and return a new digit list). If you’re ambitious
-//  you can implement Karatsuba multiplication. Try different bases. What is the
-//  best base if you care about speed?
+//  digit-list representation (and return a new digit list).
+// Try different bases --- how about no?
 func main() {
 	fmt.Println("this one should actually be fun.")
 	x := []int{2, 1, 0, 0, 1}
 	y := []int{0, 9, 9, 9}
 
-	fmt.Println(addDigitSlice(x, y, 10))
+	fmt.Println(addDigitSlice(x, y))
 	fmt.Println(subtractDigitSlice(x, y))
 	fmt.Println(multiplyDigitSlice(x, y))
 }
 
-func addDigitSlice(x, y []int, base int) []int {
+func addDigitSlice(x, y []int) []int {
 	carry := 0
 	longestLen := maxOf(len(x), len(y))
 	x = padSlice(x, longestLen)
@@ -35,7 +34,7 @@ func addDigitSlice(x, y []int, base int) []int {
 			buf += y[i]
 		}
 		// do the carry check
-		if buf >= base {
+		if buf >= 10 {
 			sum[i+1] = buf % base
 			carry = 1
 		} else {
