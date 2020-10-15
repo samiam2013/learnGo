@@ -20,18 +20,14 @@ func convertSliceBase(baseXSlice []int, x, y int) []int {
 	sum := 0
 	for i := len(baseXSlice) - 1; i >= 0; i-- {
 		placePower := math.Pow(float64(x), float64(place))
-		//fmt.Println(placePower)
 		sum += baseXSlice[i] * int(placePower)
 		place++
 	}
 	newLength := int(math.Floor(math.Log(float64(sum))/math.Log(float64(y)))) + 1
-	fmt.Println("new length ", newLength)
-	fmt.Println("sum value ", sum)
 	baseYSlice := make([]int, newLength)
 	place = 0
 	for i := newLength - 1; i >= 0; i-- {
 		placePower := math.Pow(float64(y), float64(place))
-		//fmt.Println(placePower)
 		remainder := (sum / int(placePower)) % 10
 		sum -= remainder
 		baseYSlice[i] = remainder
