@@ -23,15 +23,14 @@ func main() {
 
 func printFramed(stringSlice []string) {
 	maxLen := maxStrLen(stringSlice)
-
 	for row := 0; row < len(stringSlice)+2; row++ {
 		if row == 0 {
-			fmt.Println(strings.Repeat("_", maxLen+4))
+			fmt.Println(" " + strings.Repeat("_", maxLen+4))
 		} else if row == len(stringSlice)+1 {
-			fmt.Println(strings.Repeat("‾", maxLen+4))
+			fmt.Println(" " + strings.Repeat("‾", maxLen+4))
 		} else {
 			formatString := "%-" + strconv.Itoa(maxLen) + "v"
-			fmt.Println("| " + fmt.Sprintf(formatString, stringSlice[row-1]) + " |")
+			fmt.Println("|  " + fmt.Sprintf(formatString, stringSlice[row-1]) + "  |")
 		}
 	}
 }
