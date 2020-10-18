@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("running exercises")
-	exercise1()
+	fmt.Println("running exercises...")
+	//exercise01()
+	exercise02()
 }
