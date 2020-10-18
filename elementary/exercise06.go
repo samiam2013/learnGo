@@ -12,7 +12,7 @@ import (
 //  computing the product of 1,…,n.
 // https://adriann.github.io/programming_problems.html
 
-func main() {
+func exercise06() {
 	var inputString string
 	fmt.Print("enter a number: ")
 	fmt.Scanln(&inputString)
@@ -33,15 +33,6 @@ func main() {
 		}
 	}
 	fmt.Println("Your result: " + strconv.FormatInt(result, 10))
-}
-
-func triangular(input int64) int64 {
-	sum := int64(0)
-	for input > 0 {
-		sum = sum + input
-		input = input - 1
-	}
-	return sum
 }
 
 func factorial(input int64) int64 {

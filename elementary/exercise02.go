@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func exercise02() {
 	var name string
 	fmt.Print("What is your name? ")
 	fmt.Scanln(&name)

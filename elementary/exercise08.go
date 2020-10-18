@@ -11,7 +11,7 @@ import (
 //  printing all primes up to the largest number
 //  you can easily represent is fine too.)
 
-func main() {
+func exercise08() {
 	// start with the smallest prime, 3
 	candidate := new(big.Int)
 	candidate.SetInt64(3)

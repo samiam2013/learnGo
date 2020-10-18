@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func main() {
+func exercise05() {
 	var inputString string
 	fmt.Print("Input a nubmer: ")
 	fmt.Scanln(&inputString)
