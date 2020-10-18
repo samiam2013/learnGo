@@ -8,7 +8,7 @@ import (
 )
 
 // Write a function that checks whether an element occurs in a list.
-func main() {
+func exercise03() {
 	// seed a random number generator with the time
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	fmt.Println("CQ CQ CQ")

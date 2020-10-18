@@ -13,7 +13,7 @@ import (
 //  Quick sort,
 //  Stooge Sort.
 // Check Wikipedia for descriptions.
-func main() {
+func exercise17() {
 	size := 30000
 	slice := makeRandIntSlice(size)
 	fmt.Println("number of elements for each sort: ", size)

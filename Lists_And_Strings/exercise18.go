@@ -7,7 +7,7 @@ import (
 )
 
 // Implement binary search.
-func main() {
+func exercise18() {
 	slice := makeSortedIntSlice(10000)
 	searchVal := 1292
 	if binarySearch(slice, searchVal) {

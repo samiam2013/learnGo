@@ -7,7 +7,7 @@ import (
 
 // Write a function that returns the elements on
 //  odd positions in a list.
-func main() {
+func exercise04() {
 	l := list.New()
 	fmt.Println("the odd values of list: ")
 	lSlice := []string{"I", "looked", "for", "someone", "to", "help"}
@@ -28,10 +28,4 @@ func extractOdd(l *list.List) *list.List {
 		counter++
 	}
 	return returnList
-}
-
-func printList(l *list.List) {
-	for e := l.Front(); e != nil; e = e.Next() {
-		fmt.Println(e.Value)
-	}
 }

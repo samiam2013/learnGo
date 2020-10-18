@@ -2,13 +2,12 @@ package main
 
 import (
 	"container/list"
-	"fmt"
 )
 
 // Write a function that merges two sorted lists into a new sorted list.
 //  [1,4,6],[2,3,5] → [1,2,3,4,5,6].
 // You can do this quicker than concatenating them followed by a sort.
-func main() {
+func exercise11() {
 	l1 := list.New()
 	for _, v := range []int8{1, 4, 6, 7, 8, 9} {
 		l1.PushBack(v)
@@ -44,10 +43,4 @@ func mergeSorted(l1, l2 *list.List) *list.List {
 		}
 	}
 	return mergedList
-}
-
-func printList(l *list.List) {
-	for e := l.Front(); e != nil; e = e.Next() {
-		fmt.Print(e.Value, ", ")
-	}
 }

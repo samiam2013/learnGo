@@ -9,7 +9,7 @@ import (
 // The first two Fibonacci numbers are 1 and 1. The n+1-st Fibonacci number
 // can be computed by adding the n-th and the n-1-th Fibonacci number.
 // The first few are therefore 1, 1, 1+1=2, 1+2=3, 2+3=5, 3+5=8
-func main() {
+func exercise13() {
 	n := new(big.Int).SetInt64(1)
 	n1 := new(big.Int).SetInt64(1)
 	sum := new(big.Int).SetInt64(0)

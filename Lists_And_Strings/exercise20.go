@@ -9,7 +9,7 @@ import (
 //  translated to Pig Latin by taking the first letter of every word,
 //  moving it to the end of the word and adding ‘ay’.
 // “The quick brown fox” becomes “Hetay uickqay rownbay oxfay”.
-func main() {
+func exercise20() {
 	sentence := "The quick brown fox jumped over the lazy dog"
 	fmt.Println(convToPig(sentence))
 	fmt.Println(convToEng(convToPig(sentence)))

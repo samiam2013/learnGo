@@ -5,7 +5,7 @@ import "fmt"
 // Write functions that add, subtract, and multiply two numbers in their
 //  digit-list representation (and return a new digit list).
 // Try different bases --- how about no?
-func main() {
+func exercise15() {
 	fmt.Println("this one should actually be fun.")
 	x := []int{2, 1, 0, 0, 1}
 	y := []int{0, 9, 9, 9}
@@ -35,7 +35,7 @@ func addDigitSlice(x, y []int) []int {
 		}
 		// do the carry check
 		if buf >= 10 {
-			sum[i+1] = buf % base
+			sum[i+1] = buf % 10
 			carry = 1
 		} else {
 			sum[i+1] = buf
@@ -100,7 +100,7 @@ func multiplyDigitSlice(x, y []int) []int {
 		}
 		// increase the offset for the sum to build product
 		offset++
-		product = addDigitSlice(product, buf, 10)
+		product = addDigitSlice(product, buf)
 	}
 	return product
 }

@@ -2,13 +2,11 @@ package main
 
 import (
 	"container/list"
-	"fmt"
-	"reflect"
 )
 
 // Write a function that combines two lists by alternatingly taking elements,
 //  e.g. [a,b,c], [1,2,3] → [a,1,b,2,c,3].
-func main() {
+func exercise10() {
 	l1 := list.New()
 	l2 := list.New()
 	for _, v := range []int8{1, 2, 3} {
@@ -43,15 +41,4 @@ func interList(l1, l2 *list.List) *list.List {
 		}
 	}
 	return sumList
-}
-
-func printList(l *list.List) {
-	for e := l.Front(); e != nil; e = e.Next() {
-		valueType := reflect.TypeOf(e.Value)
-		if valueType.String() == "int32" {
-			fmt.Printf("%c, ", rune(e.Value.(int32)))
-		} else {
-			fmt.Print(e.Value.(int8), ", ")
-		}
-	}
 }

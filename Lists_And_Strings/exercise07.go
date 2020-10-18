@@ -8,7 +8,7 @@ import (
 // Write three functions that compute the sum of the numbers in a list:
 //  using a for-loop, a while-loop (these are the same construct in go)
 //  recursion
-func main() {
+func exercise07() {
 	numbers := list.New()
 	for _, v := range []int64{1, 130, 1920, 72302918, 2828, 17183, 81, 1038} {
 		numbers.PushBack(v)

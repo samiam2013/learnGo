@@ -16,7 +16,7 @@ import (
 // * a     *
 // * frame *
 // *********
-func main() {
+func exercise19() {
 	stringSlice := []string{"Hello", "World", "in", "a", "frame"}
 	printFramed(stringSlice)
 }

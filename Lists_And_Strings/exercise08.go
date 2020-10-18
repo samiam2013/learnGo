@@ -2,7 +2,6 @@ package main
 
 import (
 	"container/list"
-	"fmt"
 	"math"
 )
 
@@ -12,7 +11,7 @@ import (
 // The first few perfect squares are 1*1= 1, 2*2=4, 3*3=9, 4*4=16.
 // Twelve for example is not a perfect square because there is no natural number
 //  m so that m*m=12.
-func main() {
+func exercise08() {
 	perfectSquares := list.New()
 	for i := 1; i <= 20; i++ {
 		perfectSquares.PushBack(int64(i))
@@ -27,11 +26,5 @@ func main() {
 func onAll(runFunc func(e *list.Element), l *list.List) {
 	for e := l.Front(); e != nil; e = e.Next() {
 		runFunc(e)
-	}
-}
-
-func printList(l *list.List) {
-	for e := l.Front(); e != nil; e = e.Next() {
-		fmt.Println(e.Value)
 	}
 }

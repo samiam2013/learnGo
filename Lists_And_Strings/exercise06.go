@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // Write a function that tests whether a string is a palindrome.
-func main() {
+func exercise06() {
 	palindrome := "racecar"
 	nonPalindrome := "nascar"
 	printCheck(palindrome)
