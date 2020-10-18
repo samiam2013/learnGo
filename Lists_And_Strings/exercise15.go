@@ -4,7 +4,7 @@ import "fmt"
 
 // Write functions that add, subtract, and multiply two numbers in their
 //  digit-list representation (and return a new digit list).
-// Try different bases --- how about no?
+// Try different bases --- how about no? I did it in base 10 alone
 func exercise15() {
 	fmt.Println("this one should actually be fun.")
 	x := []int{2, 1, 0, 0, 1}
