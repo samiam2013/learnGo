@@ -20,55 +20,24 @@ import (
 
 type wordNode struct {
 	word  string
-	edges []wordEdge
-}
-
-func (wN *wordNode) addEdge(next *wordNode) {
-	newEdge := wordEdge{next}
-	wN.edges = append(wN.edges, newEdge)
+	edges []*wordEdge
 }
 
 type wordEdge struct {
 	to *wordNode
 }
 
-func exercise05() {
-	/*
-		word1 := wordNode{"hello", nil}
-		word2 := wordNode{"foo", nil}
-		word3 := wordNode{"world", nil}
-		word1.addEdge(&word2)
-		word1.addEdge(&word3)
-		fmt.Println("len word1 edges: ", len(word1.edges))
-		if true {
-			panic(nil)
-		}
-	*/
-
-	words := *loadWords()
-	wordsLen := len(words)
-	s1 := rand.NewSource(time.Now().UnixNano())
-	r1 := rand.New(s1)
-	word := words[0] // _ := findWord("the", words)
-	for i := 0; i < 10; i++ {
-		fmt.Print(word.word + " ")
-		fmt.Print("len edges ", len(word.edges))
-		if len(word.edges) == 0 {
-			fmt.Println()
-			word = words[r1.Intn(wordsLen-1)]
-		} else {
-			word = *word.edges[r1.Intn(len(word.edges)-1)].to
-		}
-	}
+func (wN *wordNode) addEdge(next *wordNode) {
+	newEdge := wordEdge{next}
+	wN.edges = append(wN.edges, &newEdge)
 }
 
-func loadWords() *[]wordNode {
-	var words []wordNode
+func exercise05() {
+	var words []*wordNode
 	// you'll have to implement a sample text file if you want to run this
-	f, err := os.Open("./sample1.txt")
+	f, err := os.Open("./sample.txt")
 	check(err)
 
-	// read in the file
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanWords)
 	scanner.Scan()
@@ -83,18 +52,16 @@ func loadWords() *[]wordNode {
 	for scanner.Scan() {
 		word = scanner.Text()
 		word = reg.ReplaceAllString(word, "")
-		word = strings.ToLower(word)
-		//fmt.Println(word)
+		if len(word) > 1 {
+			word = strings.ToLower(word)
+		}
 		wordN, found = findWord(word, words)
 		if found {
 			lastWordNode.addEdge(wordN)
 			lastWordNode = wordN
-			//if len(lastWordNode.edges) > 1 {
-			//	fmt.Println("edges len: ", len(lastWordNode.edges))
-			//}
 		} else {
 			newWord := wordNode{word, nil}
-			words = append(words, newWord)
+			words = append(words, &newWord)
 			lastWordNode.addEdge(&newWord)
 			lastWordNode = &newWord
 		}
@@ -102,14 +69,29 @@ func loadWords() *[]wordNode {
 	err = scanner.Err()
 	check(err)
 	f.Close()
-	fmt.Println("words len", len(words))
-	return &words
+
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	curWord, found := findWord("the", words)
+	if !found {
+		curWord = words[0]
+	}
+	for i := 0; i < 1000; i++ {
+		fmt.Print(curWord.word + " ")
+		if len(curWord.edges)-1 == 0 {
+			fmt.Println()
+			curWord = words[r1.Intn(len(words)-1)]
+		} else {
+			curWord = curWord.edges[r1.Intn(len(curWord.edges)-1)].to
+		}
+	}
+	fmt.Print("\n\n")
 }
 
-func findWord(search string, words []wordNode) (*wordNode, bool) {
+func findWord(search string, words []*wordNode) (*wordNode, bool) {
 	for _, word := range words {
 		if word.word == search {
-			return &word, true
+			return word, true
 		}
 	}
 	return &wordNode{"", nil}, false
