@@ -10,12 +10,13 @@ func exercise07() {
 }
 
 func findLongestPalindrome(text string) string {
+	fmt.Println("starting search")
 	palindrome := ""
 	j, k := 0, 0
-	for i := 1; i < len(text); i++ {
-		if text[i] == text[i-1] {
+	for i := 0; i < len(text)-2; i++ {
+		if text[i] == text[i+1] {
 			// get new iterators j, k and find bounds
-			j, k = i, i-1
+			j, k = i, i+1
 			for text[j] == text[k] {
 				if j > 0 && k < len(text)-1 {
 					j--
@@ -24,9 +25,9 @@ func findLongestPalindrome(text string) string {
 			}
 			j++
 			k--
-		} else if i > 1 && text[i] == text[i-2] {
+		} else if text[i] == text[i+2] {
 			// get new iterators j, k and find bounds
-			j, k = i, i-2
+			j, k = i, i+2
 			for text[j] == text[k] {
 				if j > 0 && k < len(text)-1 {
 					j--
@@ -35,6 +36,8 @@ func findLongestPalindrome(text string) string {
 			}
 			j++
 			k--
+		} else {
+			continue
 		}
 		if j != 0 || k != 0 && (k-j > len(palindrome)) {
 			palindrome = text[j : k+1]
