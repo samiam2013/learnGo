@@ -9,6 +9,7 @@ func main() {
 		exercise02()
 		exercise03()
 		exercise04()
+		exercise05()
 	*/
-	exercise05()
+	exercise06()
 }
