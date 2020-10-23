@@ -2,9 +2,8 @@ package main
 
 import "fmt"
 
-// List interface enforces basic functionality for type List
-type List interface {
-	New() *List
+// ListI interface enforces basic functionality for type List
+type ListI interface {
 	Len() int
 	Front() *Element
 	Back() *Element
@@ -13,8 +12,8 @@ type List interface {
 	Remove(*Element) interface{}
 }
 
-// Element interface enforces getters for hidden pointers
-type Element interface {
+// ElementI interface enforces getters for hidden pointers
+type ElementI interface {
 	Next() *Element
 	Prev() *Element
 }
