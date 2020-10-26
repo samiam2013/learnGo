@@ -36,7 +36,8 @@ func (l *List) PushBack(v interface{}) *Element {
 		l.last++
 		return newElem
 	}
-	panic("ran out of length in list for PushBack()")
+	l.grow()
+	return l.PushBack(v)
 }
 
 // PushFront implements requirment
@@ -58,7 +59,8 @@ func (l *List) PushFront(v interface{}) *Element {
 		}
 		return l.listSlice[l.first]
 	}
-	panic("ran out of length in list for PushFront()")
+	l.grow()
+	return l.PushFront(v)
 }
 
 // Remove implements requirement
