@@ -36,7 +36,7 @@ func (l *List) PushBack(v interface{}) *Element {
 		l.last++
 		return newElem
 	}
-	l.grow()
+	l.growAppend()
 	return l.PushBack(v)
 }
 
@@ -59,7 +59,7 @@ func (l *List) PushFront(v interface{}) *Element {
 		}
 		return l.listSlice[l.first]
 	}
-	l.grow()
+	l.growAppend()
 	return l.PushFront(v)
 }
 
