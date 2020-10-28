@@ -44,5 +44,5 @@ func exercise12() {
 	for i := 0; i < 1000; i++ {
 		heap.add(i)
 	}
-	fmt.Println(heap.root.value, heap.root.left.value, heap.root.right.value)
+	fmt.Println(heap.root.value)
 }
