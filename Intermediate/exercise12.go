@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-// the original instructions was to also do it with a list, but guess what?
-//    I'M SO SICK OF USING LISTS
 // Implement a binary heap by implementing a pointer-linked binary tree.
 // Use it for implementing heap-sort.
 
@@ -17,6 +15,7 @@ type binNode struct {
 	left, right *binNode
 }
 
+//log.Printf("var: %#+v\n", var)
 // it's not specified so I'll implement a max-heap of numbers
 func (b *binHeap) add(newVal int) {
 	// heapify
