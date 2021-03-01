@@ -1,3 +1,6 @@
+# atom debugger
 */__debug_bin
-*/sample*
 */debug.test
+
+# don't know what I needed this for
+*/sample*
