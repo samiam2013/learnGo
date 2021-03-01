@@ -1,4 +1,4 @@
-package ModulePilgrimage
+package moduleExample
 
 // FizzBuzz does the fizzbuzz thing.
 func FizzBuzz(input int) string {
