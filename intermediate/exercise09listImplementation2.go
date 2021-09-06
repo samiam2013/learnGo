@@ -8,7 +8,7 @@ type List struct {
 	first, last int
 }
 
-// Front implements requirment
+// Front implements requirement
 func (l *List) Front() *Element {
 	return l.listSlice[l.first]
 }
@@ -18,13 +18,13 @@ func (l *List) Back() *Element {
 	return l.listSlice[l.last]
 }
 
-// Len implements requirment
+// Len implements requirement
 func (l *List) Len() int {
 	// at first == last == 0, 1 element is used.
 	return l.last - l.first + 1
 }
 
-// PushBack implements requirment
+// PushBack implements requirement
 func (l *List) PushBack(v interface{}) *Element {
 	if l.last < len(l.listSlice)-1 {
 		newElem := &Element{v, l.last + 1, l}
@@ -40,7 +40,7 @@ func (l *List) PushBack(v interface{}) *Element {
 	return l.PushBack(v)
 }
 
-// PushFront implements requirment
+// PushFront implements requirement
 func (l *List) PushFront(v interface{}) *Element {
 	if l.last < len(l.listSlice)-1 {
 		// TODO FINISH
@@ -81,7 +81,7 @@ type Element struct {
 	list  *List
 }
 
-// Next fills requirment of ElementI
+// Next fills requirement of ElementI
 func (e *Element) Next() *Element {
 	if e.index+1 <= e.list.last {
 		return e.list.listSlice[e.index+1]
@@ -89,7 +89,7 @@ func (e *Element) Next() *Element {
 	return nil
 }
 
-// Prev fills requirment of ElementI
+// Prev fills requirement of ElementI
 func (e *Element) Prev() *Element {
 	if e.index-1 >= e.list.first {
 		return e.list.listSlice[e.index-1]
