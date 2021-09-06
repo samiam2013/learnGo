@@ -41,7 +41,7 @@ func exercise10() {
 }
 
 /*// alternate method for when it was using panics, but this doesn't
-//    call back into the same funtion and complete the push
+//    call back into the same function and complete the push
 func recoverByAllocate(l *List) {
 	var newLen int
 	if r := recover(); r != nil {
