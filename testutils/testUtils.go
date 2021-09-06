@@ -9,6 +9,7 @@ import (
 	"sync"
 )
 
+// CaptureOutput takes in a function to catch the output, optionally taking in lines of input for stdin
 func CaptureOutput(f func(), input string) string {
 	reader, writer, err := os.Pipe()
 	if err != nil {
