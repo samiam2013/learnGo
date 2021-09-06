@@ -6,7 +6,7 @@ import (
 	"math"
 )
 
-// Write a function that returns the largest element in a list.
+// Ex01 : Write a function that returns the largest element in a list.
 //  there are lists in golang but I'm going to use a slice.
 func Ex01() {
 	numbers := []int32{830, 1, 58, 282, 500, 32, 84}
