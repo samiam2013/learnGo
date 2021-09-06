@@ -7,7 +7,7 @@ func Ex02() {
 	GreetName()
 }
 
-// GreetName: 2. Write a program that asks the user for their name and greets them with their name.
+// GreetName : 2. Write a program that asks the user for their name and greets them with their name.
 func GreetName() {
 	var name string
 	fmt.Print("What is your name? ")
