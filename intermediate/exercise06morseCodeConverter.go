@@ -1,7 +1,9 @@
-package main
+package intermediate
 
-import "fmt"
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // lifted from alwindoss, thanks alwindoss.
 // https://github.com/alwindoss/morse/blob/master/constants.go

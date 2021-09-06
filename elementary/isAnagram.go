@@ -1,20 +1,24 @@
-package main
+package elementary
 
-import "fmt"
-import "time"
+import (
+	"fmt"
+	"time"
+)
+
 // this is an alternative I found to fizzbuzz online
 //  trying to make it to those 30 lines of go today.
 func main() {
 	start := time.Now()
 	fmt.Println("listen, silent: ", isAnagram("listen", "silent"))
-	fmt.Println("sam, mass: ", isAnagram("sam", "mass"))
+	//fmt.Println("sam, mass: ", isAnagram("sam", "mass"))
 	duration := time.Since(start)
-	fmt.Println(duration)
+	fmt.Println("slow version", duration)
 
+	start = time.Now()
 	fmt.Println("listen, silent: ", isAnagramFast("listen", "silent"))
-	fmt.Println("sam, mass: ", isAnagramFast("sam", "mass"))
+	//fmt.Println("sam, mass: ", isAnagramFast("sam", "mass"))
 	duration2 := time.Since(start)
-	fmt.Println(duration2)
+	fmt.Println("fast version", duration2)
 }
 
 func isAnagram(word1, word2 string) bool {
@@ -28,7 +32,7 @@ func isAnagram(word1, word2 string) bool {
 func isAnagramFast(word1, word2 string) bool {
 	byte1 := []byte(word1)
 	byte2 := []byte(word2)
-	
+
 	map1 := make(map[string]int)
 	for i := 0; i < len(byte1); i++ {
 		if val, ok := map1[string(byte1[i])]; ok {
@@ -41,22 +45,22 @@ func isAnagramFast(word1, word2 string) bool {
 	for i := 0; i < len(byte2); i++ {
 		if val, ok := map1[string(byte2[i])]; ok {
 			map1[string(byte2[i])] = val - 1
-			if (map1[string(byte2[i])] < 0) {
+			if map1[string(byte2[i])] < 0 {
 				return false
 			}
 		} else {
-			return false;
+			return false
 		}
 	}
 
 	for _, element := range map1 {
-		if (element != 0) {
+		if element != 0 {
 			return false
 		}
 	}
 
 	//fmt.Println("map:", map1)
-	return true;
+	return true
 }
 
 // copied from wikipedia from pseudo-code

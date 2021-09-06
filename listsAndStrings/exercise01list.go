@@ -1,4 +1,4 @@
-package main
+package listsAndStrings
 
 import (
 	"fmt"
@@ -8,12 +8,12 @@ import (
 
 // Write a function that returns the largest element in a list.
 //  there are lists in golang but I'm going to use a slice.
-func exercise01() {
+func Ex01() {
 	numbers := []int32{830, 1, 58, 282, 500, 32, 84}
-	fmt.Println("largest number in list: ", largestInt(numbers))
+	fmt.Println("largest number in list: ", LargestInt(numbers))
 }
 
-func largestInt(list []int32) int32 {
+func LargestInt(list []int32) int32 {
 	// lol the compiler doesn't know this is an int32
 	if len(list) == 0 || list == nil {
 		log.Fatal("list for largestInt must be non-nil & populated.")

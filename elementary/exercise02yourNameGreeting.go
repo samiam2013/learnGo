@@ -1,8 +1,12 @@
-package main
+package elementary
 
 import "fmt"
 
-func exercise02() {
+func Exe02() {
+	GreetName()
+}
+
+func GreetName() {
 	var name string
 	fmt.Print("What is your name? ")
 	fmt.Scanln(&name)
