@@ -27,7 +27,7 @@ func CaptureOutput(f func(), input string) string {
 	os.Stdout = writer
 	os.Stderr = writer
 	if input != "" {
-		content := []byte("Name")
+		content := []byte(input)
 		tmpfile, err := ioutil.TempFile("", "example")
 		defer os.Remove(tmpfile.Name())
 		if err != nil {
