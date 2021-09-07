@@ -7,12 +7,9 @@ import (
 	"strings"
 )
 
-// Write a program that asks the user for a number n and gives them the
-//  possibility to choose between computing the sum and
-//  computing the product of 1,…,n.
-// https://adriann.github.io/programming_problems.html
-
-func exercise06() {
+// Triangle or Fac Write a program that asks the user for a number n and gives them the
+//  possibility to choose between computing the sum and computing the product of 1,…,n.
+func TriangleOrFac() {
 	var inputString string
 	fmt.Print("enter a number: ")
 	fmt.Scanln(&inputString)
@@ -21,7 +18,7 @@ func exercise06() {
 		log.Fatal(err)
 	}
 	var result int64
-	for true {
+	for {
 		fmt.Print("would you like to compute the (s)um or (p)roduct?: ")
 		fmt.Scanln(&inputString)
 		if strings.ToLower(inputString) == "s" {
@@ -39,7 +36,7 @@ func factorial(input int64) int64 {
 	product := int64(1)
 	for input > 0 {
 		product = product * input
-		fmt.Println("product " + strconv.FormatInt(product, 10))
+		//fmt.Println("product " + strconv.FormatInt(product, 10))
 		input = input - 1
 	}
 	return product
