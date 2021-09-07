@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-// TriangleSum : 4
+// TriangleSum : 4. Write a program that asks the user for a number n and prints the sum of the numbers 1 to n
 func TriangleSum() {
 	var inputNumberString string
 	fmt.Print("Pick a number, an number that doesn't overflow, of course: ")
