@@ -1,4 +1,4 @@
-# GoExercise [![Go Report Card](https://goreportcard.com/badge/github.com/samiam2013/learnGo)](https://goreportcard.com/report/github.com/samiam2013/learnGo) [![codecov](https://codecov.io/gh/samiam2013/learnGo/branch/master/graph/badge.svg?token=IP08B0OHKW)](https://codecov.io/gh/samiam2013/learnGo)
+# learnGo [![Go Report Card](https://goreportcard.com/badge/github.com/samiam2013/learnGo)](https://goreportcard.com/report/github.com/samiam2013/learnGo) [![codecov](https://codecov.io/gh/samiam2013/learnGo/branch/master/graph/badge.svg?token=IP08B0OHKW)](https://codecov.io/gh/samiam2013/learnGo)
  Simple exercises from https://adriann.github.io/programming_problems.html
 
  Implemented in the most beautiful language I've found to date, Go. [Go]od
