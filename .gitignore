@@ -6,4 +6,4 @@
 */sample*
 
 # go build
-./learnGo
+learnGo
