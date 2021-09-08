@@ -8,13 +8,11 @@ import (
 	"os"
 	"sync"
 	"testing"
-
-	"github.com/samiam2013/learnGo/testutils"
 )
 
 // TestHelloWorld tests Ex01 HelloWorld (exercise01helloWorld.go)
 func TestHelloWorld(t *testing.T) {
-	got := testutils.CaptureOutput(HelloWorld, "")
+	got := captureOutput(HelloWorld, "")
 	if got != "Hello World!\n" {
 		t.Errorf("HelloWorld() = %s; want \"Hello World!\\n\"", got)
 	}
@@ -22,7 +20,7 @@ func TestHelloWorld(t *testing.T) {
 
 // TestGreetName tests Ex02 GreetName (exercise02yourNameGreeting.go)
 func TestGreetName(t *testing.T) {
-	got := testutils.CaptureOutput(GreetName, "Name\n")
+	got := captureOutput(GreetName, "Name\n")
 	if got != "What is your name? \nNice to meet you Name" {
 		t.Errorf("TestGreetName() = '%s'; want 'What is your name?\nNice to meet you Name'", got)
 	}
@@ -30,17 +28,17 @@ func TestGreetName(t *testing.T) {
 
 // TestGreetName tests Ex02 GreetName
 func TestGreetBobOrAlice(t *testing.T) {
-	got := testutils.CaptureOutput(GreetBobOrAlice, "Bob\n")
+	got := captureOutput(GreetBobOrAlice, "Bob\n")
 	if got != "What is your name?: Hello Bob!\n" {
 		t.Errorf("TestGreetBobOrAlice() = '%s'; want 'What is your name?: Hello Bob!", got)
 	}
 
-	got = testutils.CaptureOutput(GreetBobOrAlice, "Alice\n")
+	got = captureOutput(GreetBobOrAlice, "Alice\n")
 	if got != "What is your name?: Hello Alice!\n" {
 		t.Errorf("TestGreetBobOrAlice() = '%s'; want 'What is your name?: Hello Alice!", got)
 	}
 
-	got = testutils.CaptureOutput(GreetBobOrAlice, "Uknown\n")
+	got = captureOutput(GreetBobOrAlice, "Uknown\n")
 	if got != "What is your name?: I don't recognize that name.\n" {
 		t.Errorf("TestGreetBobOrAlice() = '%s'; want 'What is your name?: Hello Alice!", got)
 	}
@@ -48,12 +46,12 @@ func TestGreetBobOrAlice(t *testing.T) {
 
 // TestTriangleSum tests Ex02 GreetName
 func TestTriangleSum(t *testing.T) {
-	got := testutils.CaptureOutput(TriangleSum, "10\n")
+	got := captureOutput(TriangleSum, "10\n")
 	if got != "Pick a number, an number that doesn't overflow, of course: 10?: 55\n" {
 		t.Errorf("TriangleSum() = '%s'; want 'Pick a number, an number that doesn't overflow, of course: 10?: 55\\n'", got)
 	}
 
-	got = testutils.CaptureOutput(TriangleSum, "123456789\n")
+	got = captureOutput(TriangleSum, "123456789\n")
 	if got != "Pick a number, an number that doesn't overflow, of course: 123456789?: 7620789436823655\n" {
 		t.Errorf("TriangleSum() = '%s'; want 'Pick a number, an number that doesn't overflow, of course: 10?: 55\\n'", got)
 	}
@@ -61,15 +59,30 @@ func TestTriangleSum(t *testing.T) {
 
 // FizzBuzzSum tests Ex05 FizzBuzzSum
 func TestFizzBuzzSum(t *testing.T) {
-	got := testutils.CaptureOutput(FizzBuzzSum, "10\n")
+	got := captureOutput(FizzBuzzSum, "10\n")
 	if got != "Input a nubmer: mod 3 + mod 5 sum: 33\n" {
 		t.Errorf("FizzBuzzSum() = '%s'; want 'Input a nubmer: mod 3 + mod 5 sum: 33\\n", got)
 	}
 
 }
 
-// CaptureOutput takes in a function to catch the output, optionally taking in lines of input for stdin
-func CaptureOutput(f func(), input string) string {
+// TestTriangleOrFac tests Ex 05
+func TestTriangleOrFac(t *testing.T) {
+	got := captureOutput(TriangleOrFac, "10\ns\n")
+	if got != "enter a number: would you like to compute the (s)um or (p)roduct?: Your result: 55\n" {
+		t.Errorf("TriangleOrFac() = '%s'; want 'enter a number: would you like to compute the "+
+			"(s)um or (p)roduct?: Your result: 55\\n'", got)
+	}
+
+	got = captureOutput(TriangleOrFac, "6\np\n")
+	if got != "enter a number: would you like to compute the (s)um or (p)roduct?: Your result: 720\n" {
+		t.Errorf("TriangleOrFac() = '%s'; want 'enter a number: would you like to compute the "+
+			"(s)um or (p)roduct?: Your result: 720\\n'", got)
+	}
+}
+
+// captureOutput takes in a function to catch the output, optionally taking in lines of input for stdin
+func captureOutput(f func(), input string) string {
 	reader, writer, err := os.Pipe()
 	if err != nil {
 		panic(err)
