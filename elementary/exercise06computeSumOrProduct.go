@@ -22,7 +22,7 @@ func TriangleOrFac() {
 		fmt.Print("would you like to compute the (s)um or (p)roduct?: ")
 		fmt.Scanln(&inputString)
 		if strings.ToLower(inputString) == "s" {
-			result = triangular(inputNumber)
+			result = Σ(inputNumber)
 			break
 		} else if strings.ToLower(inputString) == "p" {
 			result = factorial(inputNumber)

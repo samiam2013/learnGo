@@ -16,14 +16,9 @@ func TriangleSum() {
 		log.Fatal(err)
 	}
 	fmt.Println(inputNumberString + "?: " +
-		strconv.FormatInt(triangular(number), 10))
+		strconv.FormatInt(Σ(number), 10))
 }
 
-func triangular(input int64) int64 {
-	sum := int64(0)
-	for input > 0 {
-		sum = sum + input
-		input = input - 1
-	}
-	return sum
+func Σ(n int64) int64 {
+	return (n * (n + 1)) / 2
 }
