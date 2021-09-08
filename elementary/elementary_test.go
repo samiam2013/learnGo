@@ -82,7 +82,7 @@ func TestTriangleOrFac(t *testing.T) {
 	}
 }
 
-// TestMultiplicationTable tests Ex 06
+// TestMultiplicationTable tests Ex 07
 func TestMultiplicationTable(t *testing.T) {
 	got := captureOutput(MultiplicationTable, "")
 	lastLine := strings.Split(got, "\n")[11]

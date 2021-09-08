@@ -2,7 +2,8 @@
 */__debug_bin
 */debug.test
 
-# don't know what I needed this for
+# needed this for the text generation graph
+#  saves me from worrying about the gutenberg project licensing
 */sample*
 
 # go build
