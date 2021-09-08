@@ -70,6 +70,7 @@ func prettyPrintTree(tree *binTree) {
 	curLevel := 0
 	levelNodes := make(map[int][]*binTreeNode)
 	levelNodes[0] = append(levelNodes[0], tree.root)
+	// going over each level print the value and check for values to append from below, left to right
 	for curLevel < numLevels {
 		// figure out how much padding to print here
 		fmt.Print(strings.Repeat(" ", 4*(numLevels-(curLevel+1))))
