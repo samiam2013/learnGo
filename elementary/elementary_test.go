@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 	"sync"
 	"testing"
 )
@@ -78,6 +79,15 @@ func TestTriangleOrFac(t *testing.T) {
 	if got != "enter a number: would you like to compute the (s)um or (p)roduct?: Your result: 720\n" {
 		t.Errorf("TriangleOrFac() = '%s'; want 'enter a number: would you like to compute the "+
 			"(s)um or (p)roduct?: Your result: 720\\n'", got)
+	}
+}
+
+// TestMultiplicationTable tests Ex 06
+func TestMultiplicationTable(t *testing.T) {
+	got := captureOutput(MultiplicationTable, "")
+	lastLine := strings.Split(got, "\n")[11]
+	if lastLine != "  12  24  36  48  60  72  84  96 108 120 132 144" {
+		t.Errorf("TriangleOrFac() = '%s'; want '  12  24  36  48  60  72  84  96 108 120 132 144'", lastLine)
 	}
 }
 
