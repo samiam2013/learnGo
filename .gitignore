@@ -8,3 +8,6 @@
 
 # go build
 learnGo
+
+# the test coverage file that gets used by codecov
+coverage.txt
