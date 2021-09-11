@@ -11,12 +11,14 @@ import (
 //  printing all primes up to the largest number
 //  you can easily represent is fine too.)
 
-func exercise08() {
+// PrimeSeive prints an infinite number of primes
+// 	takes an int64 that represents a limit, -1 for no limit
+func PrimeSeive(maxIters int64) {
 	// start with the smallest prime, 3
 	candidate := new(big.Int)
 	candidate.SetInt64(3)
 	maxDenominator := new(big.Int)
-	for true {
+	for i := new(big.Int).SetInt64(0); maxIters == -1 || i.Cmp(new(big.Int).SetInt64(maxIters)) <= 0; i.Add(i, new(big.Int).SetInt64(1)) {
 		// create a max denominator by taking the square root and adding 1
 		maxDenominator.Sqrt(candidate)
 		maxDenominator.Add(maxDenominator, new(big.Int).SetInt64(1))
