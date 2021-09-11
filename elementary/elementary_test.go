@@ -5,6 +5,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math/big"
 	"os"
 	"strings"
 	"sync"
@@ -88,6 +89,20 @@ func TestMultiplicationTable(t *testing.T) {
 	lastLine := strings.Split(got, "\n")[11]
 	if lastLine != "  12  24  36  48  60  72  84  96 108 120 132 144" {
 		t.Errorf("TriangleOrFac() = '%s'; want '  12  24  36  48  60  72  84  96 108 120 132 144'", lastLine)
+	}
+}
+
+func TestCheckBigPrime(t *testing.T) {
+	primesMap := map[int64]bool{
+		3: true, 5: true, 7: true, 11: true, 13: true,
+		17: true, 19: true, 23: true, 29: true, 31: true,
+		2: false, 6: false, 8: false, 12: false, 15: false,
+		18: false, 20: false, 25: false, 30: false, 32: false}
+	for k, v := range primesMap {
+		checkReturn := CheckBigPrime(new(big.Int).SetInt64(k))
+		if checkReturn != v {
+			t.Errorf("CheckBigPrime(%d) = '%v'; want %v", k, checkReturn, v)
+		}
 	}
 }
 
