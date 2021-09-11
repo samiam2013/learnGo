@@ -6,6 +6,8 @@ import (
 
 func main() {
 	// elementary.HelloWorld()
+	// elementary.PrimeSeive(64)
+	// elementary.Next20LeapYears()
 	// intermediate.Ex01()
 	// listsandstrings.Ex01()
 	intermediate.BinTreeHeapSort()
