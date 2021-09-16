@@ -8,6 +8,7 @@ import "fmt"
   and the password in alphabetical order, so now we need to guess all possible
 */
 
+// GuessPasswords implements the interview question I couldn't answer.
 func GuessPasswords() {
 	fmt.Println("starting from 0 ?")
 	guesses([]byte("000000000"), 0, 49, 122)
