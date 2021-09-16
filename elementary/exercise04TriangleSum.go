@@ -19,6 +19,7 @@ func TriangleSum() {
 		strconv.FormatInt(Σ(number), 10))
 }
 
+// Σ computes the triangle sum (1 + 2 +..+ n) of a number n
 func Σ(n int64) int64 {
 	return (n * (n + 1)) / 2
 }
