@@ -134,6 +134,34 @@ func TestFizzBuzz(t *testing.T) {
 
 }
 
+func TestAnagrams(t *testing.T) {
+	testCases := map[[2]string]bool{
+		{"dormitory", "dirtyroom"}:         true,
+		{"school master", "the classroom"}: true,
+		{"conversation", "voicesranton"}:   true,
+		{"listen", "silent"}:               true,
+		{"astronomer", "moonstarer"}:       true,
+		{"the eyes", "they see"}:           true,
+		{"funeral", "realfun"}:             true,
+		{"yes", "no"}:                      false,
+		{"left", "right"}:                  false,
+		{"hello", "goodbye"}:               false,
+		{"test", "ignore"}:                 false,
+	}
+	for k, v := range testCases {
+		response := IsAnagram(k[0], k[1])
+		if response != v {
+			t.Errorf("isAnagram('%s','%s') = '%v'; wanted '%v'",
+				k[0], k[1], response, v)
+		}
+		response = IsAnagramFast(k[0], k[1])
+		if response != v {
+			t.Errorf("isAnagramFast('%s','%s') = '%v'; wanted '%v'",
+				k[0], k[1], response, v)
+		}
+	}
+}
+
 // captureOutput takes in a function to catch the output, optionally taking in lines of input for stdin
 func captureOutput(f func(), input string) string {
 	reader, writer, err := os.Pipe()

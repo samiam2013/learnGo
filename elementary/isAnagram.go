@@ -1,26 +1,7 @@
 package elementary
 
-import (
-	"fmt"
-	"time"
-)
-
-// CompareAnagrams runs IsAnagram and IsAnagram fast to compare speed
-func CompareAnagrams() {
-	start := time.Now()
-	fmt.Println("listen, silent: ", isAnagram("listen", "silent"))
-	//fmt.Println("sam, mass: ", isAnagram("sam", "mass"))
-	duration := time.Since(start)
-	fmt.Println("slow version", duration)
-
-	start = time.Now()
-	fmt.Println("listen, silent: ", isAnagramFast("listen", "silent"))
-	//fmt.Println("sam, mass: ", isAnagramFast("sam", "mass"))
-	duration2 := time.Since(start)
-	fmt.Println("fast version", duration2)
-}
-
-func isAnagram(word1, word2 string) bool {
+// IsAnagram compares two strings by sorting them and comparing
+func IsAnagram(word1, word2 string) bool {
 	byte1 := []byte(word1)
 	byte2 := []byte(word2)
 	quickSort(byte1, 0, len(byte1)-1)
@@ -28,7 +9,8 @@ func isAnagram(word1, word2 string) bool {
 	return string(byte1) == string(byte2)
 }
 
-func isAnagramFast(word1, word2 string) bool {
+// IsAnagramFast compares two strings by counting chars in a map
+func IsAnagramFast(word1, word2 string) bool {
 	byte1 := []byte(word1)
 	byte2 := []byte(word2)
 
