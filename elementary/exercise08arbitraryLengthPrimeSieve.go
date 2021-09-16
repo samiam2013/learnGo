@@ -11,7 +11,7 @@ import (
 //  printing all primes up to the largest number
 //  you can easily represent is fine too.)
 
-// PrimeSeive prints an infinite number of primes
+// PrintPrimeSeive prints an infinite number of primes
 // 	takes an int64 that represents a limit, -1 for no limit
 //  takes a bool value to either print or simply run
 func PrintPrimeSeive(nToFind int64, print bool) {

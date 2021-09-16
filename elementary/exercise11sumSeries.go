@@ -9,7 +9,7 @@ import (
 //  ((-1)^{k+1})/(2 * k-1)
 // for each value of k from 1 to a million, multiplied by 4.
 
-// AlternatingSeries() computes the series in exercise 11 and prints the reuslt
+// AlternatingSeries computes the series in exercise 11 and prints the reuslt
 func AlternatingSeries() float64 {
 	sum := float64(0)
 	for k := float64(1); k <= 1000000; k++ {
