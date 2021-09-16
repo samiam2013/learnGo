@@ -5,9 +5,8 @@ import (
 	"time"
 )
 
-// this is an alternative I found to fizzbuzz online
-//  trying to make it to those 30 lines of go today.
-func main() {
+// CompareAnagrams runs IsAnagram and IsAnagram fast to compare speed
+func CompareAnagrams() {
 	start := time.Now()
 	fmt.Println("listen, silent: ", isAnagram("listen", "silent"))
 	//fmt.Println("sam, mass: ", isAnagram("sam", "mass"))

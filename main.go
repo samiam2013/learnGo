@@ -16,6 +16,7 @@ func main() {
 	elementary.PrintPrimeSeive(10, true)
 	elementary.PrintPrimeSeiveP(10)
 	elementary.Next20LeapYears()
+	elementary.CompareAnagrams()
 	// intermediate.Ex01()
 	// listsandstrings.Ex01()
 	intermediate.BinTreeHeapSort()
