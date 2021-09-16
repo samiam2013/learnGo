@@ -30,6 +30,7 @@ func PrintPrimeSeive(nToFind int64, print bool) {
 	}
 }
 
+// CheckBigPrime tells you if a go arbitrary in is prime
 func CheckBigPrime(candidate *big.Int) bool {
 	// create a max denominator by taking the square root and adding 1
 	maxDenominator := new(big.Int)

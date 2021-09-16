@@ -45,6 +45,8 @@ func PrimeSeiveP(nToFind int64, returnChan chan big.Int) {
 	close(returnChan)
 }
 
+// PrintPrimeSeiveP prints a given number of big.Ints,
+//	streaming from PrimeSeiveP()
 func PrintPrimeSeiveP(nToFind int64) {
 	resultBuf := make(chan big.Int)
 	go func() {

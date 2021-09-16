@@ -6,6 +6,8 @@ import (
 )
 
 // Write a program that prints the next 20 leap years
+
+// Next20LeapYears() dynamically gets the current year and calculates
 func Next20LeapYears() {
 	leapYear, _, _ := time.Now().Date()
 	leapYear += 4 - leapYear%4
