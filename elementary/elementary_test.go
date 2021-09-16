@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/big"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 	"testing"
@@ -88,7 +89,8 @@ func TestMultiplicationTable(t *testing.T) {
 	got := captureOutput(MultiplicationTable, "")
 	lastLine := strings.Split(got, "\n")[11]
 	if lastLine != "  12  24  36  48  60  72  84  96 108 120 132 144" {
-		t.Errorf("TriangleOrFac() = '%s'; want '  12  24  36  48  60  72  84  96 108 120 132 144'", lastLine)
+		t.Errorf("TriangleOrFac() = '%s'; want '  12  24  36  48  60  72  84"+
+			" 96 108 120 132 144'", lastLine)
 	}
 }
 
@@ -103,6 +105,20 @@ func TestCheckBigPrime(t *testing.T) {
 		if checkReturn != v {
 			t.Errorf("CheckBigPrime(%d) = '%v'; want %v", k, checkReturn, v)
 		}
+	}
+}
+
+func TestGuessingGame(t *testing.T) {
+	var buf bytes.Buffer
+	for i := 0; i <= 1000; i++ {
+		buf.WriteString(strconv.Itoa(i) + "\n")
+	}
+	response := captureOutput(GuessingGame, buf.String())
+	last := response[strings.LastIndex(response, ":")+2:]
+	congrats := last[:strings.LastIndex(last, "!")+1]
+	correct := "your guess was correct!"
+	if congrats != correct {
+		t.Errorf("GuessingGame() = '%s'; want '%s'", congrats, correct)
 	}
 }
 

@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"strconv"
+	"time"
 )
 
 // Write a guessing game where the user has to guess a secret number.
@@ -12,7 +13,10 @@ import (
 //  was too large or too small. At the end the number of tries needed
 //  should be printed. It counts only as one try if they input the
 //  same number multiple times consecutively.
-func exercise09() {
+
+// GuessingGame implements the exercise 9 prompt
+func GuessingGame() {
+	rand.Seed(time.Now().UnixNano())
 	randNum := int64(rand.Intn(1000))
 	var guesses []int64
 	fmt.Print("What is your guess for the random number?: ")
