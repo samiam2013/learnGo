@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-// Fizzbuzz takes a limit number of iterations and a test flag for returning a string rather than printing and returning ""
+// FizzBuzz takes a limit number of iterations and a test flag for returning a string rather than printing and returning ""
 func FizzBuzz(limit int64, test bool) string {
 	// iterate until overflow?
 	var i int64
@@ -29,8 +29,6 @@ func FizzBuzz(limit int64, test bool) string {
 	}
 	if returnBuf.Len() == 0 {
 		return ""
-	} else {
-		return returnBuf.String()
 	}
-
+	return returnBuf.String()
 }
