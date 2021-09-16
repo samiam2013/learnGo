@@ -122,6 +122,18 @@ func TestGuessingGame(t *testing.T) {
 	}
 }
 
+func TestFizzBuzz(t *testing.T) {
+	response := FizzBuzz(15, true)
+	noLastNewLine := response[:strings.LastIndex(response, "\n")]
+	t.Log(noLastNewLine)
+	lastLine := noLastNewLine[strings.LastIndex(noLastNewLine, "\n")+1:]
+	correct := "fizzbuzz"
+	if lastLine != correct {
+		t.Errorf("FizzBuzz() = '%s'; want '%s'", lastLine, correct)
+	}
+
+}
+
 // captureOutput takes in a function to catch the output, optionally taking in lines of input for stdin
 func captureOutput(f func(), input string) string {
 	reader, writer, err := os.Pipe()
