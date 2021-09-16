@@ -1,5 +1,5 @@
 # learnGo
-[![Build Status](https://app.travis-ci.com/samiam2013/learnGo.svg?branch=master)](https://app.travis-ci.com/samiam2013/learnGo) [![Go Report Card](https://goreportcard.com/badge/github.com/samiam2013/learnGo)](https://goreportcard.com/report/github.com/samiam2013/learnGo) [![codecov](https://codecov.io/gh/samiam2013/learnGo/branch/master/graph/badge.svg?token=IP08B0OHKW)](https://codecov.io/gh/samiam2013/learnGo)
+[![Build Status](https://app.travis-ci.com/samiam2013/learnGo.svg?branch=master)](https://app.travis-ci.com/samiam2013/learnGo) [![Go Report Card](https://goreportcard.com/badge/github.com/samiam2013/learnGo)](https://goreportcard.com/report/github.com/samiam2013/learnGo) [![codecov](https://codecov.io/gh/samiam2013/learnGo/branch/master/graph/badge.svg?token=IP08B0OHKW)](https://codecov.io/gh/samiam2013/learnGo) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Simple exercises from https://adriann.github.io/programming_problems.html
 
