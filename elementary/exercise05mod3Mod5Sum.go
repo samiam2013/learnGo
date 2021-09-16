@@ -16,11 +16,12 @@ func FizzBuzzSum() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	sumValue := sumFunction(inputNumber)
+	sumValue := SumFunction(inputNumber)
 	fmt.Println("mod 3 + mod 5 sum: " + strconv.FormatInt(sumValue, 10))
 }
 
-func sumFunction(input int64) int64 {
+// SumFunction gets the FizzBuzzSum of a number
+func SumFunction(input int64) int64 {
 	sum := int64(0)
 	for input > 0 {
 		if input%3 == 0 || input%5 == 0 {

@@ -25,14 +25,15 @@ func TriangleOrFac() {
 			result = Σ(inputNumber)
 			break
 		} else if strings.ToLower(inputString) == "p" {
-			result = factorial(inputNumber)
+			result = Factorial(inputNumber)
 			break
 		}
 	}
 	fmt.Println("Your result: " + strconv.FormatInt(result, 10))
 }
 
-func factorial(input int64) int64 {
+// Factorial does the ! math thing
+func Factorial(input int64) int64 {
 	product := int64(1)
 	for input > 0 {
 		product = product * input

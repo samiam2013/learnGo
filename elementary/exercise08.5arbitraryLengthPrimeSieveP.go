@@ -45,8 +45,7 @@ func PrimeSeiveP(nToFind int64, returnChan chan big.Int) {
 	close(returnChan)
 }
 
-func PrintPrimeSeiveP() {
-	nToFind := int64(100)
+func PrintPrimeSeiveP(nToFind int64) {
 	resultBuf := make(chan big.Int)
 	go func() {
 		for value := range resultBuf { // for value := range channel
