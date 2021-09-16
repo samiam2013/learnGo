@@ -1,4 +1,4 @@
-package main
+package intermediate
 
 import "fmt"
 
@@ -8,7 +8,7 @@ import "fmt"
   and the password in alphabetical order, so now we need to guess all possible
 */
 
-func main() {
+func GuessPasswords() {
 	fmt.Println("starting from 0 ?")
 	guesses([]byte("000000000"), 0, 49, 122)
 }
@@ -35,8 +35,5 @@ func guesses(guess []byte, depth int, minVal, maxVal byte) {
 }
 
 func testPass(input string) bool {
-	if input == "999ABCabc" {
-		return true
-	}
-	return false
+	return input == "999ABCabc"
 }
