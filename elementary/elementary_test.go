@@ -16,57 +16,77 @@ import (
 // TestHelloWorld tests Ex01 HelloWorld (exercise01helloWorld.go)
 func TestHelloWorld(t *testing.T) {
 	got := captureOutput(HelloWorld, "")
-	if got != "Hello World!\n" {
-		t.Errorf("HelloWorld() = %s; want \"Hello World!\\n\"", got)
+	correct := "Hello World!\n"
+	if got != correct {
+		t.Errorf("HelloWorld() = '%s'; want '%s'", got, correct)
 	}
 }
 
 // TestGreetName tests Ex02 GreetName (exercise02yourNameGreeting.go)
 func TestGreetName(t *testing.T) {
 	got := captureOutput(GreetName, "Name\n")
-	if got != "What is your name? \nNice to meet you Name" {
-		t.Errorf("TestGreetName() = '%s'; want 'What is your name?\nNice to meet you Name'", got)
+	correct := "What is your name? \nNice to meet you Name"
+	if got != correct {
+		t.Errorf("TestGreetName() = '%s'; want '%s'", got, correct)
 	}
 }
 
 // TestGreetName tests Ex02 GreetName
 func TestGreetBobOrAlice(t *testing.T) {
-	got := captureOutput(GreetBobOrAlice, "Bob\n")
-	if got != "What is your name?: Hello Bob!\n" {
-		t.Errorf("TestGreetBobOrAlice() = '%s'; want 'What is your name?: Hello Bob!", got)
+	testCases := map[string]string{
+		"Bob\n":    "Hello Bob!\n",
+		"Alice\n":  "Hello Alice!\n",
+		"Uknown\n": "I don't recognize that name.\n",
 	}
-
-	got = captureOutput(GreetBobOrAlice, "Alice\n")
-	if got != "What is your name?: Hello Alice!\n" {
-		t.Errorf("TestGreetBobOrAlice() = '%s'; want 'What is your name?: Hello Alice!", got)
-	}
-
-	got = captureOutput(GreetBobOrAlice, "Uknown\n")
-	if got != "What is your name?: I don't recognize that name.\n" {
-		t.Errorf("TestGreetBobOrAlice() = '%s'; want 'What is your name?: Hello Alice!", got)
+	for input, correct := range testCases {
+		got := captureOutput(GreetBobOrAlice, input)
+		got = got[strings.LastIndex(got, ":")+2:]
+		if got != correct {
+			t.Errorf("TestGreetBobOrAlice() = '%s'; want '%s'", got, correct)
+		}
 	}
 }
 
 // TestTriangleSum tests Ex02 GreetName
 func TestTriangleSum(t *testing.T) {
-	got := captureOutput(TriangleSum, "10\n")
-	if got != "Pick a number, an number that doesn't overflow, of course: 10?: 55\n" {
-		t.Errorf("TriangleSum() = '%s'; want 'Pick a number, an number that doesn't overflow, of course: 10?: 55\\n'", got)
+	testCases := map[int64]int64{
+		10:        55,
+		123456789: 7620789436823655,
 	}
-
-	got = captureOutput(TriangleSum, "123456789\n")
-	if got != "Pick a number, an number that doesn't overflow, of course: 123456789?: 7620789436823655\n" {
-		t.Errorf("TriangleSum() = '%s'; want 'Pick a number, an number that doesn't overflow, of course: 10?: 55\\n'", got)
+	for input, correct := range testCases {
+		got := captureOutput(TriangleSum, strconv.FormatInt(input, 10)+"\n")
+		got = got[strings.LastIndex(got, ":")+2:]
+		got = strings.TrimSuffix(got, "\n")
+		gotNum, err := strconv.ParseInt(got, 10, 64)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if gotNum != correct {
+			t.Errorf("TriangleSum() = '%d'; want '%d'", gotNum, correct)
+		}
 	}
 }
 
 // FizzBuzzSum tests Ex05 FizzBuzzSum
 func TestFizzBuzzSum(t *testing.T) {
-	got := captureOutput(FizzBuzzSum, "10\n")
-	if got != "Input a nubmer: mod 3 + mod 5 sum: 33\n" {
-		t.Errorf("FizzBuzzSum() = '%s'; want 'Input a nubmer: mod 3 + mod 5 sum: 33\\n", got)
+	testCases := map[int]int64{
+		0: 0, 1: 0, 2: 0, 3: 3, 4: 3,
+		5: 8, 6: 14, 10: 33, 165: 6435,
+		6435:    9665370,
+		9665370: 21797859521295,
 	}
-
+	for input, correct := range testCases {
+		got := captureOutput(FizzBuzzSum, strconv.Itoa(input)+"\n")
+		got = got[strings.LastIndex(got, ":")+2:]
+		got = strings.TrimSuffix(got, "\n")
+		gotNum, err := strconv.ParseInt(got, 10, 64)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if gotNum != correct {
+			t.Errorf("FizzBuzzSum() = '%s'; want '%v'", got, correct)
+		}
+	}
 }
 
 // TestTriangleOrFac tests Ex 05
