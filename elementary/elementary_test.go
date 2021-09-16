@@ -103,7 +103,8 @@ func TestTriangleOrFac(t *testing.T) {
 
 	for choiceStr, inouts := range testCases {
 		for _, inout := range inouts {
-			got := captureOutput(TriangleOrFac, strconv.FormatInt(inout[0], 10)+"\n"+choiceStr+"\n")
+			got := captureOutput(TriangleOrFac, strconv.FormatInt(inout[0], 10)+
+				"\n"+choiceStr+"\n")
 			got = got[strings.LastIndex(got, ":")+2:]
 			got = strings.TrimSuffix(got, "\n")
 			gotNum, err := strconv.ParseInt(got, 10, 64)
@@ -111,7 +112,8 @@ func TestTriangleOrFac(t *testing.T) {
 				t.Fatal(err)
 			}
 			if gotNum != inout[1] {
-				t.Errorf("TriangleOrFac('%s','%d') = '%d'; want '%d'", choiceStr, inout[0], gotNum, inout[1])
+				t.Errorf("TriangleOrFac('%s','%d') = '%d'; want '%d'",
+					choiceStr, inout[0], gotNum, inout[1])
 			}
 		}
 	}
@@ -182,7 +184,8 @@ func TestAnagrams(t *testing.T) {
 		{"test", "ignore"}:                 false,
 	}
 	for k, v := range testCases {
-		for _, anagramFunc := range []func(string, string) bool{IsAnagram, IsAnagramFast} {
+		for _, anagramFunc := range []func(string, string) bool{
+			IsAnagram, IsAnagramFast} {
 			response := anagramFunc(k[0], k[1])
 			if response != v {
 				t.Errorf("isAnagram('%s','%s') = '%v'; wanted '%v'",
@@ -200,7 +203,8 @@ func TestAlternatingSeries(t *testing.T) {
 	}
 }
 
-// captureOutput takes in a function to catch the output, optionally taking in lines of input for stdin
+// captureOutput takes in a function to catch the output,
+//	optionally taking in lines of input for stdin
 func captureOutput(f func(), input string) string {
 	reader, writer, err := os.Pipe()
 	if err != nil {
