@@ -91,16 +91,29 @@ func TestFizzBuzzSum(t *testing.T) {
 
 // TestTriangleOrFac tests Ex 05
 func TestTriangleOrFac(t *testing.T) {
-	got := captureOutput(TriangleOrFac, "10\ns\n")
-	if got != "enter a number: would you like to compute the (s)um or (p)roduct?: Your result: 55\n" {
-		t.Errorf("TriangleOrFac() = '%s'; want 'enter a number: would you like to compute the "+
-			"(s)um or (p)roduct?: Your result: 55\\n'", got)
+	testCases := map[string][][2]int64{
+		"s": { // sum
+			{0, 0}, {10, 55}, {100, 5050},
+			{1000, 500500}, {10000, 50005000},
+		},
+		"p": { // factorial
+			{0, 1}, {6, 720}, {12, 479001600},
+		},
 	}
 
-	got = captureOutput(TriangleOrFac, "6\np\n")
-	if got != "enter a number: would you like to compute the (s)um or (p)roduct?: Your result: 720\n" {
-		t.Errorf("TriangleOrFac() = '%s'; want 'enter a number: would you like to compute the "+
-			"(s)um or (p)roduct?: Your result: 720\\n'", got)
+	for choiceStr, inouts := range testCases {
+		for _, inout := range inouts {
+			got := captureOutput(TriangleOrFac, strconv.FormatInt(inout[0], 10)+"\n"+choiceStr+"\n")
+			got = got[strings.LastIndex(got, ":")+2:]
+			got = strings.TrimSuffix(got, "\n")
+			gotNum, err := strconv.ParseInt(got, 10, 64)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if gotNum != inout[1] {
+				t.Errorf("TriangleOrFac('%s','%d') = '%d'; want '%d'", choiceStr, inout[0], gotNum, inout[1])
+			}
+		}
 	}
 }
 
@@ -169,15 +182,12 @@ func TestAnagrams(t *testing.T) {
 		{"test", "ignore"}:                 false,
 	}
 	for k, v := range testCases {
-		response := IsAnagram(k[0], k[1])
-		if response != v {
-			t.Errorf("isAnagram('%s','%s') = '%v'; wanted '%v'",
-				k[0], k[1], response, v)
-		}
-		response = IsAnagramFast(k[0], k[1])
-		if response != v {
-			t.Errorf("isAnagramFast('%s','%s') = '%v'; wanted '%v'",
-				k[0], k[1], response, v)
+		for _, anagramFunc := range []func(string, string) bool{IsAnagram, IsAnagramFast} {
+			response := anagramFunc(k[0], k[1])
+			if response != v {
+				t.Errorf("isAnagram('%s','%s') = '%v'; wanted '%v'",
+					k[0], k[1], response, v)
+			}
 		}
 	}
 }
