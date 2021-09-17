@@ -23,16 +23,10 @@ func BinTreeHeapSort() {
 
 	tree := &binTree{&binTreeNode{1,
 		&binTreeNode{6,
-			&binTreeNode{13,
-				&binTreeNode{14, nil, nil},
-				&binTreeNode{12, nil, nil},
-			},
+			&binTreeNode{13, nil, nil},
 			&binTreeNode{11, nil, nil},
 		}, &binTreeNode{54,
-			&binTreeNode{2,
-				&binTreeNode{16, nil, nil},
-				&binTreeNode{11, nil, nil},
-			},
+			&binTreeNode{2, nil, nil},
 			&binTreeNode{13, nil, nil},
 		}}}
 
@@ -40,9 +34,16 @@ func BinTreeHeapSort() {
 	fmt.Println() // recursive print doesn't leave a newline TODO fix?
 	fmt.Println("number of levels: ", countLeftMostLevels(tree.root, 0))
 	prettyPrintTree(tree.root)
-	parentStack := []*binTreeNode{tree.root, tree.root.left}
-	heapify(tree.root.left.left, parentStack)
+	parentStack := []*binTreeNode{tree.root}
+	heapify(tree.root.left, parentStack)
 	prettyPrintTree(tree.root)
+
+	parentStack = GetParents(nextNodeParent(tree.root), []*binTreeNode{tree.root})
+	for _, parent := range parentStack {
+		if parent != nil {
+			fmt.Println("stack parent value: ", parent.value)
+		}
+	}
 }
 
 func recursiveDFSPrintTree(node *binTreeNode) {
@@ -124,16 +125,52 @@ func nextNodeParent(root *binTreeNode) *binTreeNode {
 		// figure out how much padding to print here
 		for i := 0; i < len(levelNodes[curLevel]); i++ {
 			curNode := levelNodes[curLevel][i]
-			//fmt.Printf(" %3d", curNode.value)
-			if curNode.left != nil || curNode.right != nil {
+			// fmt.Printf("curnode %3d left %d right %d\n",
+			// 	curNode.value, curNode.left.value, curNode.right.value)
+			if curNode.left == nil || curNode.right == nil {
 				return curNode
 			}
+			if curNode.left != nil {
+				levelNodes[curLevel+1] = append(levelNodes[curLevel+1], curNode.left)
+			}
+			if curNode.right != nil {
+				levelNodes[curLevel+1] = append(levelNodes[curLevel+1], curNode.right)
+			}
+
 		}
 		// print newline after each level
-		fmt.Println()
+		//fmt.Println()
 		// have to increment the current level
 		curLevel = curLevel + 1
 	}
 	log.Fatalln("could not get a new node, no fix in sight")
 	return nil
+}
+
+// GetParents recursivley searches for the node handed back
+//	by nextNodeParent()
+func GetParents(target *binTreeNode, parentStack []*binTreeNode) []*binTreeNode {
+	fmt.Println("value of target node: ", target.value)
+	if parentStack[len(parentStack)-1] != nil {
+		left := parentStack[len(parentStack)-1].left
+		right := parentStack[len(parentStack)-1].right
+		if left != target {
+			leftParentStack := GetParents(target, append(parentStack, left))
+			if len(leftParentStack) > 0 {
+				return append(parentStack, leftParentStack...)
+			}
+		} else {
+			return append(parentStack, left)
+		}
+		if right != target {
+			rightParentStack := GetParents(target, append(parentStack, right))
+			if len(rightParentStack) > 0 {
+				return append(parentStack, rightParentStack...)
+			}
+		} else {
+			return append(parentStack, right)
+		}
+
+	}
+	return []*binTreeNode{nil}
 }
