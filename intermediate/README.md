@@ -6,8 +6,8 @@
 3. Implement a data structure for graphs that allows modification (insertion, deletion). It should be possible to store values at edges and nodes. It might be easiest to use a dictionary of (node, edgelist) to do this. ✔️
 4. Write a function that generates a DOT representation of a graph. ✔️
 5. Write a program that automatically generates essays for you. ✔️ 
-    5.1. Using a sample text, create a directed (multi-)graph where the words of a text are nodes and there is a directed edge between u and v if u is followed by v in your sample text. Multiple occurrences lead to multiple edges.❌ (part of 5)
-    5.2. Do a random walk on this graph: Starting from an arbitrary node choose a random successor. If no successor exists, choose another random node.❌ (part of 5)
+    5.1. Using a sample text, create a directed (multi-)graph where the words of a text are nodes and there is a directed edge between u and v if u is followed by v in your sample text. Multiple occurrences lead to multiple edges.✔️ (part of 5)
+    5.2. Do a random walk on this graph: Starting from an arbitrary node choose a random successor. If no successor exists, choose another random node.✔️ (part of 5)
 6. (numbers 6 and 7 skipped)
 8. Write a program that automatically converts English text to Morse code and vice versa. ✔️
 9. Write a program that finds the longest palindromic substring of a given string. Try to be as efficient as possible! ✔️
