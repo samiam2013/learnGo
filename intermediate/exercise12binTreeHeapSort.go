@@ -6,10 +6,6 @@ import (
 	"strings"
 )
 
-type binTree struct {
-	root *binTreeNode
-}
-
 type binTreeNode struct {
 	value       int
 	left, right *binTreeNode
@@ -19,35 +15,8 @@ type binTreeNode struct {
 // 	Implement a binary heap by implementing a pointer-linked binary tree.
 // 	Use it for implementing heap-sort.
 func BinTreeHeapSort() {
-	fmt.Println("exercise 12...")
-
-	// tree := &binTree{&binTreeNode{1,
-	// 	&binTreeNode{6,
-	// 		&binTreeNode{13, nil, nil},
-	// 		&binTreeNode{11, nil, nil},
-	// 	}, &binTreeNode{54,
-	// 		&binTreeNode{2, nil, nil},
-	// 		&binTreeNode{13, nil, nil},
-	// 	}}}
-
-	//recursiveDFSPrintTree(tree.root)
-	// fmt.Println() // recursive print doesn't leave a newline TODO fix?
-	// fmt.Println("number of levels: ", countLeftMostLevels(tree.root, 0))
-	// prettyPrintTree(tree.root)
-	// heapify(tree.root.left, parentStack)
-
-	// parentStack := []*binTreeNode{tree.root}
-	// parentStack = GetParents(nextNodeParent(tree.root), []*binTreeNode{tree.root})
-	// for _, parent := range parentStack {
-	// 	if parent != nil {
-	// 		fmt.Println("stack parent value: ", parent.value)
-	// 	}
-	// }
-
-	newRoot := binHeapSort([]int{6, 10, 9, 1, 302, 2})
-	fmt.Println("final outpout because golang is a bitch and won't let me have an unused value:")
+	newRoot := binHeapSort([]int{6, 10, 9, 1, 302, 100, 3, 1025, 513, 257, 129, 65, 33, 17, 9, 8, 16, 32, 64, 128, 256, 512, 1024})
 	prettyPrintTree(newRoot)
-
 }
 
 func binHeapSort(values []int) *binTreeNode {
@@ -56,30 +25,30 @@ func binHeapSort(values []int) *binTreeNode {
 	for _, value := range values {
 		newNode := &binTreeNode{value, nil, nil}
 		nextNode := nextNodeParent(root)
-		fmt.Println("nextNodeParent: ", nextNode)
+		//fmt.Println("nextNodeParent: ", nextNode)
 		if nextNode.left == nil {
 			nextNode.left = newNode
 		} else if nextNode.right == nil {
 			nextNode.right = newNode
 		}
 		parentSlice := GetParents(newNode, []*binTreeNode{root})
-		fmt.Println("parent slice: ", parentSlice)
-		prettyPrintTree(root)
+		//fmt.Println("parent slice: ", parentSlice)
+		//prettyPrintTree(root)
 		heapify(parentSlice[len(parentSlice)-2], parentSlice[:len(parentSlice)-2])
-		prettyPrintTree(root)
+		//prettyPrintTree(root)
 	}
 	return root
 }
 
-func recursiveDFSPrintTree(node *binTreeNode) {
-	fmt.Printf(" %3d", node.value)
-	if node.left != nil {
-		recursiveDFSPrintTree(node.left)
-	}
-	if node.right != nil {
-		recursiveDFSPrintTree(node.right)
-	}
-}
+// func recursiveDFSPrintTree(node *binTreeNode) {
+// 	fmt.Printf(" %3d", node.value)
+// 	if node.left != nil {
+// 		recursiveDFSPrintTree(node.left)
+// 	}
+// 	if node.right != nil {
+// 		recursiveDFSPrintTree(node.right)
+// 	}
+// }
 
 func countLeftMostLevels(node *binTreeNode, levels int) int {
 	levels = levels + 1
@@ -117,7 +86,7 @@ func prettyPrintTree(root *binTreeNode) {
 
 func heapify(node *binTreeNode, parentStack []*binTreeNode) {
 	largestNode := node
-	fmt.Println("heapify largest node", largestNode.value)
+	//fmt.Println("heapify largest node", largestNode.value)
 	// if either child is larger than largest so far
 	//fmt.Println("root val ", node.value)
 	if node.left != nil && node.left.value > largestNode.value {
@@ -176,7 +145,7 @@ func nextNodeParent(root *binTreeNode) *binTreeNode {
 // GetParents recursivley searches for the node handed back
 //	by nextNodeParent()
 func GetParents(target *binTreeNode, parentStack []*binTreeNode) []*binTreeNode {
-	fmt.Println("value of target node: ", target.value, "parent stack: ", parentStack)
+	//fmt.Println("value of target node: ", target.value, "parent stack: ", parentStack)
 	if parentStack[len(parentStack)-1] != nil {
 		left := parentStack[len(parentStack)-1].left
 		right := parentStack[len(parentStack)-1].right
@@ -186,11 +155,11 @@ func GetParents(target *binTreeNode, parentStack []*binTreeNode) []*binTreeNode 
 			return append(parentStack, right)
 		} else {
 			leftParentStack := GetParents(target, append(parentStack, left))
-			if len(leftParentStack) > len(parentStack) {
+			if len(leftParentStack) > 1 {
 				return leftParentStack
 			}
 			rightParentStack := GetParents(target, append(parentStack, right))
-			if len(rightParentStack) > len(parentStack) {
+			if len(rightParentStack) > 1 { //len(parentStack) {
 				return rightParentStack
 			}
 		}
