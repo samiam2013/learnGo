@@ -21,29 +21,54 @@ type binTreeNode struct {
 func BinTreeHeapSort() {
 	fmt.Println("exercise 12...")
 
-	tree := &binTree{&binTreeNode{1,
-		&binTreeNode{6,
-			&binTreeNode{13, nil, nil},
-			&binTreeNode{11, nil, nil},
-		}, &binTreeNode{54,
-			&binTreeNode{2, nil, nil},
-			&binTreeNode{13, nil, nil},
-		}}}
+	// tree := &binTree{&binTreeNode{1,
+	// 	&binTreeNode{6,
+	// 		&binTreeNode{13, nil, nil},
+	// 		&binTreeNode{11, nil, nil},
+	// 	}, &binTreeNode{54,
+	// 		&binTreeNode{2, nil, nil},
+	// 		&binTreeNode{13, nil, nil},
+	// 	}}}
 
-	recursiveDFSPrintTree(tree.root)
-	fmt.Println() // recursive print doesn't leave a newline TODO fix?
-	fmt.Println("number of levels: ", countLeftMostLevels(tree.root, 0))
-	prettyPrintTree(tree.root)
-	parentStack := []*binTreeNode{tree.root}
-	heapify(tree.root.left, parentStack)
-	prettyPrintTree(tree.root)
+	//recursiveDFSPrintTree(tree.root)
+	// fmt.Println() // recursive print doesn't leave a newline TODO fix?
+	// fmt.Println("number of levels: ", countLeftMostLevels(tree.root, 0))
+	// prettyPrintTree(tree.root)
+	// heapify(tree.root.left, parentStack)
 
-	parentStack = GetParents(nextNodeParent(tree.root), []*binTreeNode{tree.root})
-	for _, parent := range parentStack {
-		if parent != nil {
-			fmt.Println("stack parent value: ", parent.value)
+	// parentStack := []*binTreeNode{tree.root}
+	// parentStack = GetParents(nextNodeParent(tree.root), []*binTreeNode{tree.root})
+	// for _, parent := range parentStack {
+	// 	if parent != nil {
+	// 		fmt.Println("stack parent value: ", parent.value)
+	// 	}
+	// }
+
+	newRoot := binHeapSort([]int{6, 10, 9, 1, 302, 2})
+	fmt.Println("final outpout because golang is a bitch and won't let me have an unused value:")
+	prettyPrintTree(newRoot)
+
+}
+
+func binHeapSort(values []int) *binTreeNode {
+	root := &binTreeNode{value: values[0], left: nil, right: nil}
+	values = values[1:]
+	for _, value := range values {
+		newNode := &binTreeNode{value, nil, nil}
+		nextNode := nextNodeParent(root)
+		fmt.Println("nextNodeParent: ", nextNode)
+		if nextNode.left == nil {
+			nextNode.left = newNode
+		} else if nextNode.right == nil {
+			nextNode.right = newNode
 		}
+		parentSlice := GetParents(newNode, []*binTreeNode{root})
+		fmt.Println("parent slice: ", parentSlice)
+		prettyPrintTree(root)
+		heapify(root, parentSlice)
+		prettyPrintTree(root)
 	}
+	return root
 }
 
 func recursiveDFSPrintTree(node *binTreeNode) {
@@ -92,6 +117,7 @@ func prettyPrintTree(root *binTreeNode) {
 
 func heapify(node *binTreeNode, parentStack []*binTreeNode) {
 	largestNode := node
+	fmt.Println("heapify largest node", largestNode.value)
 	// if either child is larger than largest so far
 	//fmt.Println("root val ", node.value)
 	if node.left != nil && node.left.value > largestNode.value {
@@ -150,25 +176,25 @@ func nextNodeParent(root *binTreeNode) *binTreeNode {
 // GetParents recursivley searches for the node handed back
 //	by nextNodeParent()
 func GetParents(target *binTreeNode, parentStack []*binTreeNode) []*binTreeNode {
-	fmt.Println("value of target node: ", target.value)
+	fmt.Println("value of target node: ", target.value, "parent stack: ", parentStack)
 	if parentStack[len(parentStack)-1] != nil {
 		left := parentStack[len(parentStack)-1].left
 		right := parentStack[len(parentStack)-1].right
-		if left != target {
-			leftParentStack := GetParents(target, append(parentStack, left))
-			if len(leftParentStack) > 0 {
-				return append(parentStack, leftParentStack...)
-			}
-		} else {
+		if left == target {
 			return append(parentStack, left)
-		}
-		if right != target {
-			rightParentStack := GetParents(target, append(parentStack, right))
-			if len(rightParentStack) > 0 {
-				return append(parentStack, rightParentStack...)
-			}
 		} else {
+			leftParentStack := GetParents(target, append(parentStack, left))
+			if len(leftParentStack) > len(parentStack) {
+				return leftParentStack
+			}
+		}
+		if right == target {
 			return append(parentStack, right)
+		} else {
+			rightParentStack := GetParents(target, append(parentStack, right))
+			if len(rightParentStack) > len(parentStack) {
+				return rightParentStack
+			}
 		}
 
 	}
