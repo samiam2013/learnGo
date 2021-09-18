@@ -65,7 +65,7 @@ func binHeapSort(values []int) *binTreeNode {
 		parentSlice := GetParents(newNode, []*binTreeNode{root})
 		fmt.Println("parent slice: ", parentSlice)
 		prettyPrintTree(root)
-		heapify(root, parentSlice)
+		heapify(parentSlice[len(parentSlice)-2], parentSlice[:len(parentSlice)-2])
 		prettyPrintTree(root)
 	}
 	return root
@@ -182,15 +182,13 @@ func GetParents(target *binTreeNode, parentStack []*binTreeNode) []*binTreeNode 
 		right := parentStack[len(parentStack)-1].right
 		if left == target {
 			return append(parentStack, left)
+		} else if right == target {
+			return append(parentStack, right)
 		} else {
 			leftParentStack := GetParents(target, append(parentStack, left))
 			if len(leftParentStack) > len(parentStack) {
 				return leftParentStack
 			}
-		}
-		if right == target {
-			return append(parentStack, right)
-		} else {
 			rightParentStack := GetParents(target, append(parentStack, right))
 			if len(rightParentStack) > len(parentStack) {
 				return rightParentStack
