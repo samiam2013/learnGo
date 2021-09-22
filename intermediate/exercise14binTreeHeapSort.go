@@ -1,6 +1,7 @@
 package intermediate
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -15,8 +16,15 @@ type binTreeNode struct {
 // 	Implement a binary heap by implementing a pointer-linked binary tree.
 // 	Use it for implementing heap-sort.
 func BinTreeHeapSort() {
-	newRoot := binHeapSort([]int{6, 10, 9, 1, 302, 100, 3, 1025, 513, 257, 129, 65, 33, 17, 9, 8, 16, 32, 64, 128, 256, 512, 1024})
+	input := []int{6, 10, 9, 1, 302, 100, 3, 1025, 513, 257, 129, 65, 33, 17}
+	//8, 16, 32, 64, 128, 256, 512, 1024}
+	newRoot := binHeapSort(input)
 	prettyPrintTree(newRoot)
+	for newRoot.left != nil {
+		prettyPrintTree(newRoot)
+		maxVal := binHeapUnSort(newRoot)
+		fmt.Println("heap top number: ", maxVal)
+	}
 }
 
 func binHeapSort(values []int) *binTreeNode {
@@ -50,16 +58,48 @@ func binHeapSort(values []int) *binTreeNode {
 // 	}
 // }
 
-func countLeftMostLevels(node *binTreeNode, levels int) int {
-	levels = levels + 1
-	if node.left != nil {
-		levels = countLeftMostLevels(node.left, levels)
+func countLeftMostLevels(node *binTreeNode) int {
+	levels, err := countOutsideMostLevels(node, "left", 0)
+	if err != nil {
+		log.Fatal(err)
 	}
 	return levels
 }
 
+func countRightMostLevels(node *binTreeNode) int {
+	levels, err := countOutsideMostLevels(node, "right", 0)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return levels
+}
+
+func countOutsideMostLevels(node *binTreeNode, direction string, levels int) (int, error) {
+	levels = levels + 1
+	if direction == "left" {
+		if node.left != nil {
+			levels, err := countOutsideMostLevels(node.left, "left", levels)
+			if err != nil {
+				log.Fatal(err)
+			}
+			return levels, nil
+		}
+		return levels, nil
+	} else if direction == "right" {
+		if node.right != nil {
+			levels, err := countOutsideMostLevels(node.right, "right", levels)
+			if err != nil {
+				log.Fatal(err)
+			}
+			return levels, nil
+		}
+		return levels, nil
+	}
+	return levels, errors.New("countOutsideMostLevels expects string direction 'right' or 'left'")
+}
+
 func prettyPrintTree(root *binTreeNode) {
-	numLevels := countLeftMostLevels(root, 0)
+	numLevels := countLeftMostLevels(root)
 	curLevel := 0
 	levelNodes := make(map[int][]*binTreeNode)
 	levelNodes[0] = append(levelNodes[0], root)
@@ -111,7 +151,7 @@ func heapify(node *binTreeNode, parentStack []*binTreeNode) {
 }
 
 func nextNodeParent(root *binTreeNode) *binTreeNode {
-	numLevels := countLeftMostLevels(root, 0)
+	numLevels := countLeftMostLevels(root)
 	curLevel := 0
 	levelNodes := make(map[int][]*binTreeNode)
 	levelNodes[0] = append(levelNodes[0], root)
@@ -131,7 +171,6 @@ func nextNodeParent(root *binTreeNode) *binTreeNode {
 			if curNode.right != nil {
 				levelNodes[curLevel+1] = append(levelNodes[curLevel+1], curNode.right)
 			}
-
 		}
 		// print newline after each level
 		//fmt.Println()
@@ -166,4 +205,40 @@ func GetParents(target *binTreeNode, parentStack []*binTreeNode) []*binTreeNode 
 
 	}
 	return []*binTreeNode{nil}
+}
+
+func binHeapUnSort(root *binTreeNode) int {
+	lastElement := getLastElement(root)
+	parents := GetParents(lastElement, []*binTreeNode{root})
+	maxVal := root.value
+	root.value = lastElement.value
+	lastElementParent := parents[len(parents)-2]
+	if lastElementParent.right != nil {
+		lastElementParent.right = nil
+	} else if lastElementParent.left != nil {
+		lastElementParent.left = nil
+	} else {
+		log.Fatal("last parent doesn't have a non nil node?")
+	}
+	lastElement = getLastElement(root)
+	heapify(lastElement, parents)
+	return maxVal
+}
+
+func getLastElement(node *binTreeNode) *binTreeNode {
+	leftLevels, rightLevels := countLeftMostLevels(node), countRightMostLevels(node)
+	if node.left != nil && node.right == nil {
+		return node.left
+	}
+	if leftLevels == rightLevels {
+		return getRightMost(node)
+	}
+	return getLastElement(node.left)
+}
+
+func getRightMost(node *binTreeNode) *binTreeNode {
+	if node.right != nil {
+		return getRightMost(node.right)
+	}
+	return node
 }
