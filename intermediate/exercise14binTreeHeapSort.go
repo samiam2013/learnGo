@@ -221,6 +221,7 @@ func binHeapUnSort(root *binTreeNode) int {
 		log.Fatal("last parent doesn't have a non nil node?")
 	}
 	lastElement = getLastElement(root)
+	parents = GetParents(lastElement, []*binTreeNode{root})
 	heapify(lastElement, parents)
 	return maxVal
 }
