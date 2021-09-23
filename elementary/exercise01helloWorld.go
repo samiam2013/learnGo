@@ -1,6 +1,8 @@
 package elementary
 
+import "fmt"
+
 // HelloWorld : 1. Write a program that prints ‘Hello World’ to the screen.
 func HelloWorld() {
-	print("Hello World!\n")
+	fmt.Println("Hello World!")
 }
