@@ -176,16 +176,19 @@ func TestGuesser(t *testing.T) {
 	} else if state.Cmp != +1 {
 		t.Fatal("comparison result unexpected")
 	} else if state.Response != "higher!: " {
-		t.Fatal("response unexpected: '" + state.Response + "'; wanted 'higher!: '")
+		t.Fatal("response unexpected: '" + state.Response +
+			"'; wanted 'higher!: '")
 	}
 
 	guesser(state.Target + 10)
 	if state.Win != false {
 		t.Fatal("won with a bad guess")
 	} else if state.Cmp != -1 {
-		t.Fatal("comparison result unexpected: " + strconv.Itoa(int(state.Cmp)))
+		t.Fatal("comparison result unexpected: " +
+			strconv.Itoa(int(state.Cmp)))
 	} else if state.Response != "lower!: " {
-		t.Fatal("response unexpected: '" + state.Response + "'; wanted 'lower!: '")
+		t.Fatal("response unexpected: '" + state.Response +
+			"'; wanted 'lower!: '")
 	}
 
 	guesser(state.Target)
@@ -195,6 +198,8 @@ func TestGuesser(t *testing.T) {
 		t.Fatal("comparison result unexpected")
 	} else if state.Response != "you win!" {
 		t.Fatal("response unexpected: '" + state.Response + "'; wanted 'higher!: '")
+	} else if len(state.Guesses) != 3 {
+		t.Fatal("guess #: '" + strconv.Itoa(len(state.Guesses)) + "' ; wanted '3'")
 	}
 
 }
