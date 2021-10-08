@@ -149,12 +149,54 @@ func TestGuessingGame(t *testing.T) {
 		buf.WriteString(strconv.Itoa(i) + "\n")
 	}
 	response := captureOutput(GuessingGame, buf.String())
+	t.Logf("%+v\n", response)
 	last := response[strings.LastIndex(response, ":")+2:]
 	congrats := last[:strings.LastIndex(last, "!")+1]
 	correct := "your guess was correct!"
-	if congrats != correct {
+	if !strings.HasSuffix(congrats, correct) {
 		t.Errorf("GuessingGame() = '%s'; want '%s'", congrats, correct)
 	}
+}
+
+func TestGuesser(t *testing.T) {
+	const correct = 5
+	state := GameState{
+		Cmp:      -1,
+		Win:      false,
+		Response: "nothing played yet",
+		Target:   correct,
+		Guesses:  make(map[int64]int64)}
+
+	guesser := state.getGuesser()
+
+	guesser(state.Target - 10)
+	t.Logf("%+v\n", state)
+	if state.Win != false {
+		t.Fatal("won with a bad guess")
+	} else if state.Cmp != +1 {
+		t.Fatal("comparison result unexpected")
+	} else if state.Response != "higher!: " {
+		t.Fatal("response unexpected: '" + state.Response + "'; wanted 'higher!: '")
+	}
+
+	guesser(state.Target + 10)
+	if state.Win != false {
+		t.Fatal("won with a bad guess")
+	} else if state.Cmp != -1 {
+		t.Fatal("comparison result unexpected: " + strconv.Itoa(int(state.Cmp)))
+	} else if state.Response != "lower!: " {
+		t.Fatal("response unexpected: '" + state.Response + "'; wanted 'lower!: '")
+	}
+
+	guesser(state.Target)
+	if state.Win != true {
+		t.Fatal("didn't win with correct guess")
+	} else if state.Cmp != 0 {
+		t.Fatal("comparison result unexpected")
+	} else if state.Response != "you win!" {
+		t.Fatal("response unexpected: '" + state.Response + "'; wanted 'higher!: '")
+	}
+
 }
 
 func TestFizzBuzz(t *testing.T) {

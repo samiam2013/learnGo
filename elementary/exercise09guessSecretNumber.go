@@ -14,11 +14,28 @@ import (
 //  should be printed. It counts only as one try if they input the
 //  same number multiple times consecutively.
 
+// need to test this, so I need to de-couple parts
+
+type GameState struct {
+	Cmp      int8
+	Win      bool
+	Response string
+	Target   int64
+	Guesses  map[int64]int64
+}
+
 // GuessingGame implements the exercise 9 prompt
 func GuessingGame() {
-	rand.Seed(time.Now().UnixNano())
-	randNum := int64(rand.Intn(1000))
-	var guesses []int64
+
+	state := GameState{
+		Cmp:      1,
+		Win:      false,
+		Response: "nothing played yet",
+		Target:   -1,
+		Guesses:  make(map[int64]int64)}
+
+	guesser := state.getGuesser()
+
 	fmt.Print("What is your guess for the random number?: ")
 	var input string
 	fmt.Scanln(&input)
@@ -26,31 +43,47 @@ func GuessingGame() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	for guess != randNum {
-		if guess < randNum {
-			fmt.Print("Higher!: ")
-		} else if guess > randNum {
-			fmt.Print("Lower!: ")
-		} else {
-			break
-		}
+
+	guesser(guess)
+	for !state.Win {
+		fmt.Println(state.Response)
+
 		fmt.Scanln(&input)
 		guess, err = strconv.ParseInt(input, 10, 32)
 		if err != nil {
 			log.Fatal(err)
 		}
-		if !inList(guess, guesses) {
-			guesses = append(guesses, guess)
-		}
+		// send the new guess in and mutate the game state
+		guesser(guess)
 	}
-	fmt.Println("your guess was correct! took", len(guesses), "tries.")
+	fmt.Printf("%+v\n", state)
+	fmt.Println("your guess was correct! took", len(state.Guesses), "tries.")
 }
 
-func inList(number int64, list []int64) bool {
-	for i := 0; i < len(list); i++ {
-		if list[i] == number {
-			return true
+func (state *GameState) getGuesser() func(int64) {
+	rand.Seed(time.Now().UnixNano())
+	randNum := int64(rand.Intn(1000))
+	state.Target = randNum
+	return func(guess int64) {
+		val := state.Guesses[guess]
+		if val == 0 {
+			state.Guesses[guess] = 1
+		} else {
+			state.Guesses[guess] = val + 1
 		}
+		if guess < randNum {
+			state.Response = "higher!: "
+			state.Win = false
+			state.Cmp = 1
+			return
+		} else if guess > randNum {
+			state.Response = "lower!: "
+			state.Win = false
+			state.Cmp = -1
+			return
+		}
+		state.Response = "you win!"
+		state.Win = true
+		state.Cmp = 0
 	}
-	return false
 }
