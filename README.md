@@ -5,7 +5,7 @@
 
 There are no external dependencies, this is all pure [Go](https://www.golang.org)
 
-There's three folders with the exercises so far: [Elementary](elementary/README.md), [ListsAndStrings](listsandstrings/README.md) and [Intermediate](intermediate/README.md) Each folder has it's own readme with a listing of the exercies and a status for each one in the form of emojis
+There's three folders with the exercises so far: [Elementary](elementary/), [ListsAndStrings](listsandstrings/ and [Intermediate](intermediate/) Each folder has it's own readme with a listing of the exercies and a status for each one in the form of emojis
 
 Oh, and it has [a heuristic sudoku solver](offscript/sudoku.go) in /offscript
 
