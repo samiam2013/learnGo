@@ -1,4 +1,4 @@
-package listsandstrings
+package listsAndStrings
 
 import (
 	"container/list"

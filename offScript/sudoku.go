@@ -16,6 +16,14 @@ type cell struct {
 	Possible map[int]bool
 }
 
+func (c *cell) setEmpty() {
+	c.Value = 0
+	c.ValueSet = false
+	c.Possible = map[int]bool{
+		1: true, 2: true, 3: true, 4: true, 5: true,
+		6: true, 7: true, 8: true, 9: true}
+}
+
 type board struct {
 	Cells [9][9]cell
 }
@@ -55,6 +63,13 @@ func (b *board) getSet(idx int) [3][3]*cell {
 }
 
 func (b *board) setCell(colIdx, rowIdx int, value uint8) {
+	fmt.Println("colIdx, rowIdx", colIdx, rowIdx)
+	rowSetIdx := (rowIdx - (rowIdx % 3)) / 3
+	colSetIdx := (colIdx - (colIdx % 3)) / 3
+	setIdx := (rowSetIdx * 3) + (colSetIdx)
+	fmt.Println("rowset, colset, set idx:", rowSetIdx, colSetIdx, setIdx)
+	b.rmPossibilities(colIdx, rowIdx, setIdx, value)
+
 	b.Cells[rowIdx][colIdx] = cell{
 		Value:    value,
 		ValueSet: true,
@@ -64,13 +79,6 @@ func (b *board) setCell(colIdx, rowIdx int, value uint8) {
 		},
 	}
 
-	fmt.Println("colIdx, rowIdx", colIdx, rowIdx)
-	rowSetIdx := (rowIdx - (rowIdx % 3)) / 3
-	colSetIdx := (colIdx - (colIdx % 3)) / 3
-	setIdx := (rowSetIdx * 3) + (colSetIdx)
-	fmt.Println("rowset, colset, set idx:", rowSetIdx, colSetIdx, setIdx)
-	b.rmPossibilities(colIdx, rowIdx, setIdx, value)
-
 	b.Cells[rowIdx][colIdx].Possible[int(value)] = true
 }
 
@@ -78,7 +86,7 @@ func (b *board) rmPossibilities(colIdx, rowIdx, setIdx int, value uint8) {
 	col := b.getCol(colIdx)
 	for i := 0; i < 9; i++ {
 		if col[i].Possible == nil {
-			b.setCellEmpty(colIdx, i)
+			col[i].setEmpty()
 		}
 		col[i].Possible[int(value)] = false
 	}
@@ -86,21 +94,17 @@ func (b *board) rmPossibilities(colIdx, rowIdx, setIdx int, value uint8) {
 	row := b.getRow(rowIdx)
 	for i := 0; i < 9; i++ {
 		if row[i].Possible == nil {
-			b.setCellEmpty(i, rowIdx)
+			row[i].setEmpty()
 		}
 		row[i].Possible[int(value)] = false
 	}
 	fmt.Println("passed getRow()")
+
 	// set := b.getSet(setIdx)
-	// setColIdxStart := colIdx - (colIdx % 3)
-	// setRowIdxStart := rowIdx - (rowIdx % 3)
-	// fmt.Println("colstart, rowstart: ", setColIdxStart, setRowIdxStart)
 	// for i := 0; i < 3; i++ {
 	// 	for j := 0; j < 3; j++ {
 	// 		if set[i][j].Possible == nil {
-	// 			fmt.Println("set cell empty: j, i", j+setColIdxStart, ",",
-	// 				i+setRowIdxStart)
-	// 			b.setCellEmpty(j+setColIdxStart, i+setRowIdxStart)
+	// 			set[i][j].setEmpty()
 	// 		}
 	// 		set[i][j].Possible[int(value)] = false
 	// 	}

@@ -13,4 +13,15 @@ const EasyBoard string = "" +
 	"026 000 035" +
 	"000 409 000"
 
-	//variable := [[{0 false map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true]} {0 false map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true]} {0 false map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true]}] [{1 true map[1:true 2:false 3:false 4:false 5:false 6:false 7:false 8:false 9:false]} {4 true map[1:false 2:false 3:false 4:true 5:false 6:false 7:false 8:false 9:false]} {0 false map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true]}] [{0 false map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true]} {8 true map[1:false 2:false 3:false 4:false 5:false 6:false 7:false 8:true 9:false]} {0 false map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true]}]]
+const EasyBoardSolved string = "" +
+	"672 145 398" +
+	"145 983 672" +
+	"389 762 451" +
+
+	"263 574 819" +
+	"958 621 743" +
+	"714 398 526" +
+
+	"597 236 184" +
+	"426 817 935" +
+	"831 459 267"
