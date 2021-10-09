@@ -1,4 +1,4 @@
-package offScript
+package offscript
 
 import (
 	"encoding/json"

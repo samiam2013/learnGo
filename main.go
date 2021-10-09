@@ -4,7 +4,7 @@ import (
 	// "github.com/samiam2013/learnGo/elementary"
 	//"github.com/samiam2013/learnGo/intermediate"
 	//"github.com/samiam2013/learnGo/listsandstrings"
-	"github.com/samiam2013/learnGo/offScript"
+	"github.com/samiam2013/learnGo/offscript"
 )
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 
 	//elementary.GuessingGame()
 
-	offScript.RunSudoku()
+	offscript.RunSudoku()
 
 	//intermediate.BinTreeHeapSort()
 }

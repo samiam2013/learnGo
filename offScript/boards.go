@@ -1,4 +1,4 @@
-package offScript
+package offscript
 
 const EasyBoard string = "" +
 	"000 105 000" +
