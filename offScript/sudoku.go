@@ -69,19 +69,19 @@ func (b *board) getSet(setIdx int) [9]*cell {
 	return set
 }
 
-func (b *board) rowIsValid(rowIdx int) bool {
+func (b board) rowIsValid(rowIdx int) bool {
 	return cellsAreValid(b.getRow(rowIdx))
 }
 
-func (b *board) colIsValid(colIdx int) bool {
+func (b board) colIsValid(colIdx int) bool {
 	return cellsAreValid(b.getCol(colIdx))
 }
 
-func (b *board) setIsValid(setIdx int) bool {
+func (b board) setIsValid(setIdx int) bool {
 	return cellsAreValid(b.getSet(setIdx))
 }
 
-func (b *board) IsValid() bool {
+func (b board) IsValid() bool {
 	for i := 0; i < 9; i++ {
 		if !b.rowIsValid(i) {
 			fmt.Println("row invalid, index: ", i)
@@ -107,10 +107,10 @@ func (b *board) Print() {
 		row := b.getRow(i)
 		fmt.Print("|")
 		for key, cell := range row {
-			if cell != nil {
+			if cell != nil && cell.Value != 0 {
 				fmt.Printf("  %d  ", cell.Value)
 			} else {
-				fmt.Print("  0  ")
+				fmt.Print("  .  ")
 			}
 			if (key+1)%3 == 0 {
 				fmt.Print("|")
@@ -136,12 +136,11 @@ func (b *board) rmNotPossibles() {
 		for colIdx := 0; colIdx < 9; colIdx++ {
 			// only need to set not possibles for the cells with set values
 			if b.Cells[rowIdx][colIdx].ValueSet {
-				fmt.Println("colIdx, rowIdx", colIdx, rowIdx)
+				//fmt.Println("colIdx, rowIdx", colIdx, rowIdx)
 				rowSetIdx := (rowIdx - (rowIdx % 3)) / 3
 				colSetIdx := (colIdx - (colIdx % 3)) / 3
-				// TODO is this math right?
 				setIdx := (rowSetIdx * 3) + (colSetIdx)
-				fmt.Println("rowset, colset, set idx:", rowSetIdx, colSetIdx, setIdx)
+				//fmt.Println("rowset, colset, set idx:", rowSetIdx, colSetIdx, setIdx)
 				valSet := b.Cells[rowIdx][colIdx].Value
 				b.rmNotPossiblesCol(colIdx, valSet)
 				b.rmNotPossiblesRow(rowIdx, valSet)
@@ -149,7 +148,33 @@ func (b *board) rmNotPossibles() {
 			}
 		}
 	}
+}
 
+// tries to find hidden single, returns the number solved
+func (b *board) solveHiddenSingles() int {
+	// iterate over the rows and range over the columns for cells
+	// to find the cells without a set value
+	solvedSingles := 0
+	for i := 0; i < 9; i++ {
+		for _, myCell := range b.Cells[i] {
+			if !myCell.ValueSet {
+				// count the number of possible values
+				possibleCount := 0
+				lastPossible := 0
+				for value, possible := range myCell.Possible {
+					if possible {
+						possibleCount++
+						lastPossible = value
+					}
+				}
+				if possibleCount == 1 {
+					myCell.setCell(uint8(lastPossible))
+					solvedSingles++
+				}
+			}
+		}
+	}
+	return solvedSingles
 }
 
 func (b *board) rmNotPossiblesCol(colIdx int, value uint8) {
@@ -159,7 +184,7 @@ func (b *board) rmNotPossiblesCol(colIdx int, value uint8) {
 			col[i].Possible[int(value)] = false
 		}
 	}
-	fmt.Println("passed getCol()")
+	//fmt.Println("passed getCol()")
 }
 
 func (b *board) rmNotPossiblesRow(rowIdx int, value uint8) {
@@ -169,7 +194,7 @@ func (b *board) rmNotPossiblesRow(rowIdx int, value uint8) {
 			row[i].Possible[int(value)] = false
 		}
 	}
-	fmt.Println("passed getRow()")
+	//fmt.Println("passed getRow()")
 }
 
 func (b *board) rmNotPossiblesSet(setIdx int, value uint8) {
@@ -244,7 +269,7 @@ func Run() error {
 		log.Fatal(err)
 	}
 
-	if true {
+	if false {
 		zeros := map[string]interface{}{
 			"row0": board.getRow(0),
 			"col0": board.getCol(0),
@@ -254,11 +279,22 @@ func Run() error {
 	}
 
 	board.Print()
-
+	fmt.Printf("is board valid?: %v\n", board.IsValid())
+	solveHiddenSingles(&board)
+	board.Print()
 	fmt.Printf("is board valid?: %v\n", board.IsValid())
 
 	return err
 
+}
+
+func solveHiddenSingles(b *board) {
+	solves := b.solveHiddenSingles()
+	b.rmNotPossibles()
+	for solves > 0 {
+		solves = b.solveHiddenSingles()
+		b.rmNotPossibles()
+	}
 }
 
 // SpaceMap gradually increases the amount of allocated space as more
