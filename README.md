@@ -3,7 +3,9 @@
 
 [Simple exercises from adriann.github.io/programming_problems.html](https://adriann.github.io/programming_problems.html) (CC-BY-SA)
 
-Implemented in my personal favorite language, [Go](https://www.golang.org)
+There are no external dependencies, this is all pure [Go](https://www.golang.org)
+
+Oh, and it has [a heuristic sudoku solver](offscript/sudoku.go) in /offscript
 
 # Next Groups of Exercises from the Set
 ## Advanced Exercises
