@@ -2,8 +2,6 @@ package offScript
 
 import "testing"
 
-// EasyBoard _
-
 func TestHiddenSingles(t *testing.T) {
 	puzzle := board{}
 	err := puzzle.Ingest(EasyBoard)

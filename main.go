@@ -3,7 +3,7 @@ package main
 import (
 	// "github.com/samiam2013/learnGo/elementary"
 	//"github.com/samiam2013/learnGo/intermediate"
-	//"github.com/samiam2013/learnGo/listsAndStrings"
+	//"github.com/samiam2013/learnGo/listsandstrings"
 	"github.com/samiam2013/learnGo/offScript"
 )
 
@@ -28,11 +28,11 @@ func main() {
 	// fmt.Println("fast version", duration2)
 
 	// intermediate.Ex01()
-	// listsAndStrings.Ex01()
+	// listsandstrings.Ex01()
 
 	//elementary.GuessingGame()
 
-	offScript.Run()
+	offScript.RunSudoku()
 
 	//intermediate.BinTreeHeapSort()
 }
