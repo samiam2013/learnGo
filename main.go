@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/samiam2013/learnGo/elementary"
+	"github.com/samiam2013/learnGo/offScript"
 )
 
 func main() {
@@ -27,7 +27,9 @@ func main() {
 	// // intermediate.Ex01()
 	// listsandstrings.Ex01()
 
-	elementary.GuessingGame()
+	//elementary.GuessingGame()
+
+	offScript.Run()
 
 	//intermediate.BinTreeHeapSort()
 }
