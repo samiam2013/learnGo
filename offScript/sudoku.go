@@ -37,7 +37,7 @@ type board struct {
 	Cells [9][9]*cell
 }
 
-func (b *board) getRow(idx int) [9]*cell {
+func getRow(b *board, idx int) [9]*cell {
 	row := [9]*cell{}
 	for c := 0; c < 9; c++ {
 		row[c] = b.Cells[idx][c]
@@ -45,7 +45,7 @@ func (b *board) getRow(idx int) [9]*cell {
 	return row
 }
 
-func (b *board) getCol(idx int) [9]*cell {
+func getCol(b *board, idx int) [9]*cell {
 	col := [9]*cell{}
 	for r := 0; r < 9; r++ {
 		col[r] = b.Cells[r][idx]
@@ -53,7 +53,7 @@ func (b *board) getCol(idx int) [9]*cell {
 	return col
 }
 
-func (b *board) getSet(setIdx int) [9]*cell {
+func getSet(b *board, setIdx int) [9]*cell {
 	set := [9]*cell{}
 	colSetIdx := setIdx % 3
 	rowSetIdx := (setIdx - colSetIdx) / 3
@@ -67,27 +67,20 @@ func (b *board) getSet(setIdx int) [9]*cell {
 	return set
 }
 
-func (b board) rowIsValid(rowIdx int) bool {
-	return cellsAreValid(b.getRow(rowIdx))
-}
-
-func (b board) colIsValid(colIdx int) bool {
-	return cellsAreValid(b.getCol(colIdx))
-}
-
-func (b board) setIsValid(setIdx int) bool {
-	return cellsAreValid(b.getSet(setIdx))
+func (b board) subSetIsValid(setIdx int,
+	getter func(*board, int) [9]*cell) bool {
+	return cellsAreValid(getter(&b, setIdx))
 }
 
 func (b board) IsValid() bool {
 	for i := 0; i < 9; i++ {
-		if !b.rowIsValid(i) {
+		if !b.subSetIsValid(i, getRow) {
 			fmt.Println("row invalid, index: ", i)
 			return false
-		} else if !b.colIsValid(i) {
+		} else if !b.subSetIsValid(i, getCol) {
 			fmt.Println("col invalid, index: ", i)
 			return false
-		} else if !b.setIsValid(i) {
+		} else if !b.subSetIsValid(i, getSet) {
 			fmt.Println("set invalid, index: ", i)
 			return false
 		}
@@ -104,11 +97,12 @@ const hUn string = "+"
 // vertical union
 const vUn string = "|"
 
+// the padding on either side of a value
 const pad string = "  "
-const dblPad string = pad + pad
 
-// cell vertical
-const cV string = pad + " " + dblPad + " " + dblPad + " " + pad //"               "
+// cell vertical - described as an empty row with spaces instead of noVals
+const dblPad string = pad + pad
+const cV string = pad + " " + dblPad + " " + dblPad + " " + pad
 
 const noVal string = "."
 
@@ -119,7 +113,7 @@ func (b *board) Print() {
 	fmt.Println(horizLine)
 	fmt.Println(vertLines)
 	for i := 0; i < 9; i++ {
-		row := b.getRow(i)
+		row := getRow(b, i)
 		fmt.Print(vUn)
 		for key, cell := range row {
 			if cell != nil && cell.Value != 0 {
@@ -156,9 +150,9 @@ func (b *board) rmNotPossibles() {
 				setIdx := (rowSetIdx * 3) + (colSetIdx)
 
 				val := b.Cells[rowIdx][colIdx].Value
-				b.rmNotPossiblesCol(colIdx, val)
-				b.rmNotPossiblesRow(rowIdx, val)
-				b.rmNotPossiblesSet(setIdx, val)
+				b.rmNotPossiblesSet(colIdx, val, getCol)
+				b.rmNotPossiblesSet(rowIdx, val, getRow)
+				b.rmNotPossiblesSet(setIdx, val, getSet)
 			}
 		}
 	}
@@ -192,26 +186,9 @@ func (b *board) solveHiddenSingles() int {
 	return solvedSingles
 }
 
-func (b *board) rmNotPossiblesCol(colIdx int, value uint8) {
-	col := b.getCol(colIdx)
-	for i := 0; i < 9; i++ {
-		if !col[i].ValueSet {
-			col[i].Possible[value] = false
-		}
-	}
-}
-
-func (b *board) rmNotPossiblesRow(rowIdx int, value uint8) {
-	row := b.getRow(rowIdx)
-	for i := 0; i < 9; i++ {
-		if !row[i].ValueSet {
-			row[i].Possible[value] = false
-		}
-	}
-}
-
-func (b *board) rmNotPossiblesSet(setIdx int, value uint8) {
-	set := b.getSet(setIdx)
+func (b *board) rmNotPossiblesSet(idx int, value uint8,
+	getter func(*board, int) [9]*cell) {
+	set := getter(b, idx)
 	for i := 0; i < 9; i++ {
 		if !set[i].ValueSet {
 			set[i].Possible[value] = false
@@ -277,9 +254,9 @@ func Run() error {
 
 	if false {
 		zeros := map[string]interface{}{
-			"row0": board.getRow(0),
-			"col0": board.getCol(0),
-			"set0": board.getSet(0)}
+			"row0": getRow(&board, 0),
+			"col0": getCol(&board, 0),
+			"set0": getSet(&board, 0)}
 		marshalled, _ := json.MarshalIndent(zeros, "", "  ")
 		fmt.Printf("%s\n", string(marshalled))
 	}
