@@ -1,16 +1,14 @@
 package listsandstrings
 
 import (
-	"fmt"
 	"log"
 	"math"
 )
 
 // Ex01 : redundantly exports LargestInt. sorry
-func Ex01() {
-	numbers := []int32{830, 1, 58, 282, 500, 32, 84}
-	fmt.Println("largest number in list: ", LargestInt(numbers))
-}
+// func Ex01(list []int32) {
+// 	fmt.Println("largest number in list: ", LargestInt(list))
+// }
 
 // LargestInt : 1 Write a function that returns the largest element in a list.
 //  there are lists in golang but I'm going to use a slice.
