@@ -234,7 +234,7 @@ func cellsAreValid(cells [9]*cell) bool {
 		intVal := int(cell.Value)
 		assertOnes[intVal]++
 		if intVal != 0 && assertOnes[intVal] > 1 {
-			fmt.Println("index:", intVal, "seems to be >1 occurences")
+			fmt.Println("index:", intVal, "seems to be >1 occurrences")
 			return false
 		}
 	}

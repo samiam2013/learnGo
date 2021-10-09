@@ -1,6 +1,6 @@
 package offscript
 
-const EasyBoard string = "" +
+const hiddenSinglesBoard string = "" +
 	"000 105 000" +
 	"140 000 670" +
 	"080 002 400" +
@@ -13,7 +13,7 @@ const EasyBoard string = "" +
 	"026 000 035" +
 	"000 409 000"
 
-const EasyBoardSolved string = "" +
+const hiddenSinglesBoardSolved string = "" +
 	"672 145 398" +
 	"145 983 672" +
 	"389 762 451" +

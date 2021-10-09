@@ -4,13 +4,13 @@ import "testing"
 
 func TestHiddenSingles(t *testing.T) {
 	puzzle := board{}
-	err := puzzle.Ingest(EasyBoard)
+	err := puzzle.Ingest(hiddenSinglesBoard)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	solved := board{}
-	err = solved.Ingest(EasyBoardSolved)
+	err = solved.Ingest(hiddenSinglesBoardSolved)
 	if err != nil {
 		t.Fatal(err)
 	}
