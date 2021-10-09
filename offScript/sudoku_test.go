@@ -6,7 +6,7 @@ import "testing"
 
 func TestIngest(t *testing.T) {
 	board := board{
-		Cells: [9][9]cell{},
+		Cells: [9][9]*cell{},
 	}
 	err := board.Ingest(EasyBoard)
 	if err != nil {
