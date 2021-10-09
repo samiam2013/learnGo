@@ -16,7 +16,7 @@ import (
 
 // need to test this, so I need to de-couple parts
 
-type GameState struct {
+type gameState struct {
 	Cmp      int8
 	Win      bool
 	Response string
@@ -27,7 +27,7 @@ type GameState struct {
 // GuessingGame implements the exercise 9 prompt
 func GuessingGame() {
 
-	state := GameState{
+	state := gameState{
 		Cmp:      1,
 		Win:      false,
 		Response: "nothing played yet",
@@ -60,7 +60,7 @@ func GuessingGame() {
 	fmt.Println("your guess was correct! took", len(state.Guesses), "tries.")
 }
 
-func (state *GameState) getGuesser() func(int64) {
+func (state *gameState) getGuesser() func(int64) {
 	rand.Seed(time.Now().UnixNano())
 	randNum := int64(rand.Intn(1000))
 	state.Target = randNum

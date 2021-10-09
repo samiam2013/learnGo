@@ -2,6 +2,7 @@ package offscript
 
 import "testing"
 
+// TestHiddenSingles runs a test case for a hidden singles puzzle solving
 func TestHiddenSingles(t *testing.T) {
 	puzzle := board{}
 	err := puzzle.Ingest(hiddenSinglesBoard)

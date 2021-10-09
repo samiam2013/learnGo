@@ -160,7 +160,7 @@ func TestGuessingGame(t *testing.T) {
 
 func TestGuesser(t *testing.T) {
 	const correct = 5
-	state := GameState{
+	state := gameState{
 		Cmp:      -1,
 		Win:      false,
 		Response: "nothing played yet",
