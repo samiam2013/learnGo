@@ -33,7 +33,6 @@ func TestNakedSingles(t *testing.T) {
 			}
 		}
 	}
-
 }
 
 // TestNakedSingles runs a test case for a hidden singles puzzle solving

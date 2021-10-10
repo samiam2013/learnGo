@@ -8,38 +8,30 @@ import (
 
 // RunSudoku is used for calling from ../main.go to test things by hand
 func RunSudoku() error {
-	board := board{
+	b := board{
 		Cells: [9][9]*cell{},
 	}
-	err := board.Ingest(hiddenSinglesBoard)
+	err := b.Ingest(hiddenSinglesBoard)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	if false {
 		zeros := map[string]interface{}{
-			"row0": getRow(&board, 0),
-			"col0": getCol(&board, 0),
-			"set0": getSet(&board, 0)}
+			"row0": getRow(&b, 0),
+			"col0": getCol(&b, 0),
+			"set0": getSet(&b, 0)}
 		marshalled, _ := json.MarshalIndent(zeros, "", "  ")
 		fmt.Printf("%s\n", string(marshalled))
 	}
 
-	board.Print()
-	fmt.Printf("is board valid?: %v\n", board.IsValid())
-	solvedCells := SolveNakedSingles(&board)
-	board.Print()
-	fmt.Println("cells solved by naked Singles:", solvedCells)
-	fmt.Printf("is board valid?: %v\n", board.IsValid())
-
-	board.Ingest(hiddenSinglesBoard)
-	board.Print()
-	fmt.Printf("is board valid?: %v\n", board.IsValid())
-	solvedCells = SolveHiddenSingles(&board)
-	board.Print()
-	fmt.Println("cells solved by naked Singles:", solvedCells)
-	fmt.Printf("is board valid?: %v\n", board.IsValid())
-
+	fns := []func(*board) int{SolveNakedSingles, SolveHiddenSingles}
+	for _, solver := range fns {
+		b.Ingest(hiddenSinglesBoard)
+		solvedCells := solver(&b)
+		b.Print()
+		fmt.Printf("cells solved: %d - valid: %v\n", solvedCells, b.IsValid())
+	}
 	return err
 
 }

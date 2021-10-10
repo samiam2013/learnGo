@@ -15,7 +15,6 @@ type cell struct {
 	Candidate map[uint8]bool
 }
 
-// SetEmpty _
 func (c *cell) setEmpty() {
 	c.Digit = 0
 	c.DigitSet = false
@@ -24,7 +23,6 @@ func (c *cell) setEmpty() {
 		6: true, 7: true, 8: true, 9: true}
 }
 
-// Set _
 func (c *cell) set(value uint8) {
 	c.Digit = value
 	c.DigitSet = true
@@ -154,9 +152,9 @@ func (b *board) rmNotCandidates() {
 			if b.Cells[rowIdx][colIdx].DigitSet {
 				setIdx := computeSetIdx(rowIdx, colIdx)
 				val := b.Cells[rowIdx][colIdx].Digit
-				b.rmNotCandidatesset(colIdx, val, getCol)
-				b.rmNotCandidatesset(rowIdx, val, getRow)
-				b.rmNotCandidatesset(setIdx, val, getSet)
+				b.rmNotCandidatesSet(colIdx, val, getCol)
+				b.rmNotCandidatesSet(rowIdx, val, getRow)
+				b.rmNotCandidatesSet(setIdx, val, getSet)
 			}
 		}
 	}
@@ -228,7 +226,7 @@ func (b *board) solveHiddenSingles(getter func(*board, int) [9]*cell) int {
 	return solvedCells
 }
 
-func (b *board) rmNotCandidatesset(idx int, value uint8,
+func (b *board) rmNotCandidatesSet(idx int, value uint8,
 	getter func(*board, int) [9]*cell) {
 	set := getter(b, idx)
 	for i := 0; i < 9; i++ {
@@ -321,6 +319,7 @@ func SolveHiddenSingles(b *board) int {
 			solves += b.solveHiddenSingles(getter)
 			b.rmNotCandidates()
 		}
+		sum += solves
 	}
 	return sum
 }
