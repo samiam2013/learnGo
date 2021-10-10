@@ -333,7 +333,7 @@ func SolveHiddenSingles(b *board) int {
 		b.rmNotPossibles()
 		solves += b.solveHiddenSingles(getSet)
 		b.rmNotPossibles()
-		fmt.Println("number of solves", solves)
+		//fmt.Println("number of solves", solves)
 		sum += solves
 	}
 	return sum

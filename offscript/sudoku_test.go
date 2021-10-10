@@ -16,9 +16,11 @@ func TestNakedSingles(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	// flimsy test?
 	solvedCells := SolveNakedSingles(&puzzle)
-	if solvedCells != 51 {
-		t.Fatal("expected 51 cells solved, got:", solvedCells)
+	numSolves := 51
+	if solvedCells != numSolves {
+		t.Fatalf("expected %d cells solved, got: %d\n", numSolves, solvedCells)
 	}
 
 	if !puzzle.IsValid() {
@@ -48,9 +50,11 @@ func TestHiddenSingles(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	solvedCells := SolveHiddenSingles(&puzzle)
-	if solvedCells != 51 {
-		t.Fatal("expected 51 cells solved, got:", solvedCells)
+	// flimsy test?
+	solvedCells := SolveNakedSingles(&puzzle)
+	numSolves := 51
+	if solvedCells != numSolves {
+		t.Fatalf("expected %d cells solved, got: %d\n", numSolves, solvedCells)
 	}
 
 	if !puzzle.IsValid() {
