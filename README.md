@@ -9,9 +9,9 @@ There's three folders with the exercises so far: [Elementary](elementary/), [Lis
 
 Oh, and it has [a heuristic sudoku solver](offscript/sudoku.go) in /offscript
 
-![gopherLearn](https://raw.githubusercontent.com/egonelbre/gophers/master/vector/fairy-tale/witch-learning.svg)
+![gopherLearn](offscript/witch-learning.svg)
 
-[from github.com/egonelbre/gophers/]
+[(from egonelbre/gophers/)[https://github.com/egonelbre/gophers/]]
 
 ## Next Groups of Exercises from the Set (not yet started)
 ### Advanced Exercises
