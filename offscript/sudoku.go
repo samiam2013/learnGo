@@ -136,6 +136,13 @@ func (b *board) Print() {
 	fmt.Println(horizLine)
 }
 
+func computeSetIdx(rowIdx, colIdx int) int {
+	// computer set indexes 1-9 -> 1-3 for row, col to get setIdx
+	rowSetIdx := (rowIdx - (rowIdx % 3)) / 3
+	colSetIdx := (colIdx - (colIdx % 3)) / 3
+	return (rowSetIdx * 3) + (colSetIdx)
+}
+
 func (b *board) rmNotPossibles() {
 	// loop over each row and col
 	//	and remove possibles in row, col, set for set values
@@ -143,11 +150,7 @@ func (b *board) rmNotPossibles() {
 		for colIdx := 0; colIdx < 9; colIdx++ {
 			// only need to set not possibles for the cells with set values
 			if b.Cells[rowIdx][colIdx].ValueSet {
-				// computer set indexes 1-9 -> 1-3 for row, col to get setIdx
-				rowSetIdx := (rowIdx - (rowIdx % 3)) / 3
-				colSetIdx := (colIdx - (colIdx % 3)) / 3
-				setIdx := (rowSetIdx * 3) + (colSetIdx)
-
+				setIdx := computeSetIdx(rowIdx, colIdx)
 				val := b.Cells[rowIdx][colIdx].Value
 				b.rmNotPossiblesSet(colIdx, val, getCol)
 				b.rmNotPossiblesSet(rowIdx, val, getRow)
@@ -158,10 +161,10 @@ func (b *board) rmNotPossibles() {
 }
 
 // tries to find hidden single, returns the number solved
-func (b *board) solveHiddenSingles() int {
+func (b *board) solveNakedSingles() int {
 	// iterate over the rows and range over the columns for cells
 	// to find the cells without a set value
-	solvedSingles := 0
+	solvedCells := 0
 	for i := 0; i < 9; i++ {
 		for _, myCell := range b.Cells[i] {
 			if !myCell.ValueSet {
@@ -177,12 +180,55 @@ func (b *board) solveHiddenSingles() int {
 				// if there's only one set the last value for the cell
 				if possibleCount == 1 {
 					myCell.setCell(uint8(lastPossible))
-					solvedSingles++
+					solvedCells++
 				}
 			}
 		}
 	}
-	return solvedSingles
+	return solvedCells
+}
+
+// tries to find hidden single, returns the number solved
+func (b *board) solveHiddenSingles(getter func(*board, int) [9]*cell) int {
+	solvedCells := 0
+	// for each (row|col|set)
+	for idx := 0; idx < 9; idx++ {
+		//fmt.Println("idx:", idx)
+		// get all the cells at this index
+		cells := getter(b, idx)
+		var d uint8
+		// for each possible value check all the cells
+		for d = 1; d < 10; d++ {
+			//fmt.Println("d:", d)
+			// for each cell check all the other cells
+			for cIdx := 0; cIdx < 9; cIdx++ {
+				//fmt.Println("cIdx:", cIdx)
+				myCell := cells[cIdx]
+				if myCell.ValueSet {
+					continue
+				}
+				numCands := 0
+				// for each other cell
+				for other := 0; other < 9; other++ {
+					// check our cesll is not the other cell
+					otherCell := cells[other]
+					if myCell == otherCell {
+						continue
+					}
+					//fmt.Println("other:", other)
+					if otherCell.Possible[d] {
+						numCands++
+						//fmt.Printf("count candidates:",numCands)
+					}
+				}
+				if numCands == 0 {
+					myCell.setCell(d)
+					solvedCells++
+				}
+			}
+		}
+	}
+	return solvedCells
 }
 
 func (b *board) rmNotPossiblesSet(idx int, value uint8,
@@ -257,14 +303,38 @@ func cellsAreValid(cells [9]*cell) bool {
 
 // SolveHiddenSingles takes in a board and solves hidden singles until
 //	it can find no more and returns the number of cells filled.
-func SolveHiddenSingles(b *board) int {
-	solves := b.solveHiddenSingles()
+func SolveNakedSingles(b *board) int {
+	solves := b.solveNakedSingles()
 	sum := 0
 	b.rmNotPossibles()
 	for solves > 0 {
-		solves = b.solveHiddenSingles()
+		solves = b.solveNakedSingles()
 		sum += solves
 		b.rmNotPossibles()
+	}
+	return sum
+}
+
+func SolveHiddenSingles(b *board) int {
+	sum := 0
+	solves := 0
+	solves += b.solveHiddenSingles(getRow)
+	b.rmNotPossibles()
+	solves += b.solveHiddenSingles(getCol)
+	b.rmNotPossibles()
+	solves += b.solveHiddenSingles(getSet)
+	b.rmNotPossibles()
+	sum += solves
+	for solves > 0 {
+		solves = 0
+		solves += b.solveHiddenSingles(getRow)
+		b.rmNotPossibles()
+		solves += b.solveHiddenSingles(getCol)
+		b.rmNotPossibles()
+		solves += b.solveHiddenSingles(getSet)
+		b.rmNotPossibles()
+		fmt.Println("number of solves", solves)
+		sum += solves
 	}
 	return sum
 }

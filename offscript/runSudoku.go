@@ -27,9 +27,17 @@ func RunSudoku() error {
 
 	board.Print()
 	fmt.Printf("is board valid?: %v\n", board.IsValid())
-	solvedCells := SolveHiddenSingles(&board)
+	solvedCells := SolveNakedSingles(&board)
 	board.Print()
-	fmt.Println("cells solved:", solvedCells)
+	fmt.Println("cells solved by naked Singles:", solvedCells)
+	fmt.Printf("is board valid?: %v\n", board.IsValid())
+
+	board.Ingest(hiddenSinglesBoard)
+	board.Print()
+	fmt.Printf("is board valid?: %v\n", board.IsValid())
+	solvedCells = SolveHiddenSingles(&board)
+	board.Print()
+	fmt.Println("cells solved by naked Singles:", solvedCells)
 	fmt.Printf("is board valid?: %v\n", board.IsValid())
 
 	return err
