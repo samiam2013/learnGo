@@ -247,7 +247,7 @@
          y="548.93182"
          id="tspan98737"><tspan
            style="line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas"
-           id="tspan98735">    fmt.Println(&quot;Hello&quot;);
+           id="tspan98735">    fmt.Println(&quot;Hello&quot;)
 </tspan></tspan><tspan
          x="383.6709"
          y="567.68182"
