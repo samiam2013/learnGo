@@ -16,7 +16,10 @@ func TestHiddenSingles(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	solveHiddenSingles(&puzzle)
+	solvedCells := SolveHiddenSingles(&puzzle)
+	if solvedCells != 51 {
+		t.Fatal("expected 51 cells solved, got:", solvedCells)
+	}
 
 	if !puzzle.IsValid() {
 		t.Fatal("solution invalid!")

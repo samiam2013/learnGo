@@ -196,7 +196,7 @@ func (b *board) rmNotPossiblesSet(idx int, value uint8,
 }
 
 func (b *board) Ingest(numString string) error {
-	noSpaces := SpaceMap(numString)
+	noSpaces := spaceMap(numString)
 	lenNoSpaces := len(noSpaces)
 	if lenNoSpaces != 81 {
 		log.Fatal("board.Ingest() requires 81 characters; got:", lenNoSpaces)
@@ -227,6 +227,20 @@ func (b *board) Ingest(numString string) error {
 	return nil
 }
 
+// spaceMap gradually increases the amount of allocated space as more
+//	non-whitespace characters are encountered
+func spaceMap(str string) string {
+	return strings.Map(func(r rune) rune {
+		if unicode.IsSpace(r) {
+			return -1
+		}
+		return r
+	}, str)
+}
+
+// credit for the above spacemap function
+// https://stackoverflow.com/a/32081891 CC BY-SA 4.0
+
 func cellsAreValid(cells [9]*cell) bool {
 	assertOnes := map[int]int{1: 0, 2: 0, 3: 0, 4: 0,
 		5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
@@ -241,24 +255,16 @@ func cellsAreValid(cells [9]*cell) bool {
 	return true
 }
 
-func solveHiddenSingles(b *board) {
+// SolveHiddenSingles takes in a board and solves hidden singles until
+//	it can find no more and returns the number of cells filled.
+func SolveHiddenSingles(b *board) int {
 	solves := b.solveHiddenSingles()
+	sum := 0
 	b.rmNotPossibles()
 	for solves > 0 {
 		solves = b.solveHiddenSingles()
+		sum += solves
 		b.rmNotPossibles()
 	}
+	return sum
 }
-
-// SpaceMap gradually increases the amount of allocated space as more
-//	non-whitespace characters are encountered
-func SpaceMap(str string) string {
-	return strings.Map(func(r rune) rune {
-		if unicode.IsSpace(r) {
-			return -1
-		}
-		return r
-	}, str)
-}
-
-// credit https://stackoverflow.com/a/32081891 CC BY-SA 4.0
