@@ -11,7 +11,7 @@ Oh, and it has [a heuristic sudoku solver](offscript/sudoku.go) in /offscript
 
 ![gopherLearn](offscript/witch-learning.svg)
 
-[(from egonelbre/gophers/)[https://github.com/egonelbre/gophers/]]
+[[from egonelbre/gophers/](https://github.com/egonelbre/gophers/)]
 
 ## Next Groups of Exercises from the Set (not yet started)
 ### Advanced Exercises
