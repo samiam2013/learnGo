@@ -28,7 +28,7 @@ func TestNakedSingles(t *testing.T) {
 	}
 	for row := 0; row < 9; row++ {
 		for col := 0; col < 9; col++ {
-			if puzzle.Cells[row][col].Value != solved.Cells[row][col].Value {
+			if puzzle.Cells[row][col].Digit != solved.Cells[row][col].Digit {
 				t.Fatal("solution values didn't match!")
 			}
 		}
@@ -62,7 +62,7 @@ func TestHiddenSingles(t *testing.T) {
 	}
 	for row := 0; row < 9; row++ {
 		for col := 0; col < 9; col++ {
-			if puzzle.Cells[row][col].Value != solved.Cells[row][col].Value {
+			if puzzle.Cells[row][col].Digit != solved.Cells[row][col].Digit {
 				t.Fatal("solution values didn't match!")
 			}
 		}

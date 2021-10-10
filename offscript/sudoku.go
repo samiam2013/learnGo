@@ -10,26 +10,28 @@ import (
 )
 
 type cell struct {
-	Value    uint8
-	ValueSet bool
-	Possible map[uint8]bool
+	Digit     uint8
+	DigitSet  bool
+	Candidate map[uint8]bool
 }
 
+// SetEmpty _
 func (c *cell) setEmpty() {
-	c.Value = 0
-	c.ValueSet = false
-	c.Possible = map[uint8]bool{
+	c.Digit = 0
+	c.DigitSet = false
+	c.Candidate = map[uint8]bool{
 		1: true, 2: true, 3: true, 4: true, 5: true,
 		6: true, 7: true, 8: true, 9: true}
 }
 
-func (c *cell) setCell(value uint8) {
-	c.Value = value
-	c.ValueSet = true
-	c.Possible = map[uint8]bool{
+// Set _
+func (c *cell) set(value uint8) {
+	c.Digit = value
+	c.DigitSet = true
+	c.Candidate = map[uint8]bool{
 		1: false, 2: false, 3: false, 4: false, 5: false,
 		6: false, 7: false, 8: false, 9: false}
-	c.Possible[value] = true
+	c.Candidate[value] = true
 }
 
 type board struct {
@@ -115,8 +117,8 @@ func (b *board) Print() {
 		row := getRow(b, i)
 		fmt.Print(vUn)
 		for key, cell := range row {
-			if cell != nil && cell.Value != 0 {
-				fmt.Printf(pad+"%d"+pad, cell.Value)
+			if cell != nil && cell.Digit != 0 {
+				fmt.Printf(pad+"%d"+pad, cell.Digit)
 			} else {
 				fmt.Print(pad + noVal + pad)
 			}
@@ -143,18 +145,18 @@ func computeSetIdx(rowIdx, colIdx int) int {
 	return (rowSetIdx * 3) + (colSetIdx)
 }
 
-func (b *board) rmNotPossibles() {
+func (b *board) rmNotCandidates() {
 	// loop over each row and col
-	//	and remove possibles in row, col, set for set values
+	//	and remove candidates in row, col, set for set values
 	for rowIdx := 0; rowIdx < 9; rowIdx++ {
 		for colIdx := 0; colIdx < 9; colIdx++ {
-			// only need to set not possibles for the cells with set values
-			if b.Cells[rowIdx][colIdx].ValueSet {
+			// only need to set not candidates for the cells with set values
+			if b.Cells[rowIdx][colIdx].DigitSet {
 				setIdx := computeSetIdx(rowIdx, colIdx)
-				val := b.Cells[rowIdx][colIdx].Value
-				b.rmNotPossiblesSet(colIdx, val, getCol)
-				b.rmNotPossiblesSet(rowIdx, val, getRow)
-				b.rmNotPossiblesSet(setIdx, val, getSet)
+				val := b.Cells[rowIdx][colIdx].Digit
+				b.rmNotCandidatesset(colIdx, val, getCol)
+				b.rmNotCandidatesset(rowIdx, val, getRow)
+				b.rmNotCandidatesset(setIdx, val, getSet)
 			}
 		}
 	}
@@ -167,19 +169,19 @@ func (b *board) solveNakedSingles() int {
 	solvedCells := 0
 	for i := 0; i < 9; i++ {
 		for _, myCell := range b.Cells[i] {
-			if !myCell.ValueSet {
-				// count the number of possible values, keeping the last one
-				possibleCount := 0
-				lastPossible := uint8(0)
-				for value, possible := range myCell.Possible {
-					if possible {
-						possibleCount++
-						lastPossible = value
+			if !myCell.DigitSet {
+				// count the number of candidate values, keeping the last one
+				candidateCount := 0
+				lastCandidate := uint8(0)
+				for value, candidate := range myCell.Candidate {
+					if candidate {
+						candidateCount++
+						lastCandidate = value
 					}
 				}
 				// if there's only one set the last value for the cell
-				if possibleCount == 1 {
-					myCell.setCell(uint8(lastPossible))
+				if candidateCount == 1 {
+					myCell.set(uint8(lastCandidate))
 					solvedCells++
 				}
 			}
@@ -191,39 +193,34 @@ func (b *board) solveNakedSingles() int {
 // tries to find hidden single, returns the number solved
 func (b *board) solveHiddenSingles(getter func(*board, int) [9]*cell) int {
 	solvedCells := 0
-	// for each (row|col|set)
+	// for each (row|col|set) get all the cells
 	for idx := 0; idx < 9; idx++ {
-		//fmt.Println("idx:", idx)
-		// get all the cells at this index
 		cells := getter(b, idx)
-		var d uint8
-		// for each possible value check all the cells
-		for d = 1; d < 10; d++ {
-			//fmt.Println("d:", d)
-			// for each cell check all the other cells
+		var digit uint8
+		// for each candidate value of a cell, check all the cells
+		for digit = 1; digit < 10; digit++ {
 			for cIdx := 0; cIdx < 9; cIdx++ {
-				//fmt.Println("cIdx:", cIdx)
-				myCell := cells[cIdx]
-				if myCell.ValueSet {
+				candidate := cells[cIdx]
+				if candidate.DigitSet {
 					continue
 				}
-				numCands := 0
-				// for each other cell
-				for other := 0; other < 9; other++ {
-					// check our cesll is not the other cell
-					otherCell := cells[other]
-					if myCell == otherCell {
+				numCandidates := 0
+				// for each other cell check our cell is not the one
+				//	being compared against, if there's no other candidates
+				//	our cell should be set
+				for otherIdx := 0; otherIdx < 9; otherIdx++ {
+					other := cells[otherIdx]
+					if candidate == other {
 						continue
 					}
-					//fmt.Println("other:", other)
-					if otherCell.Possible[d] {
-						numCands++
-						//fmt.Printf("count candidates:",numCands)
+					if other.Candidate[digit] {
+						numCandidates++
 					}
 				}
-				if numCands == 0 {
-					myCell.setCell(d)
+				if numCandidates == 0 {
+					candidate.set(digit)
 					solvedCells++
+					break
 				}
 			}
 		}
@@ -231,12 +228,12 @@ func (b *board) solveHiddenSingles(getter func(*board, int) [9]*cell) int {
 	return solvedCells
 }
 
-func (b *board) rmNotPossiblesSet(idx int, value uint8,
+func (b *board) rmNotCandidatesset(idx int, value uint8,
 	getter func(*board, int) [9]*cell) {
 	set := getter(b, idx)
 	for i := 0; i < 9; i++ {
-		if !set[i].ValueSet {
-			set[i].Possible[value] = false
+		if !set[i].DigitSet {
+			set[i].Candidate[value] = false
 		}
 	}
 }
@@ -248,7 +245,6 @@ func (b *board) Ingest(numString string) error {
 		log.Fatal("board.Ingest() requires 81 characters; got:", lenNoSpaces)
 	}
 	for i, val := range []rune(noSpaces) {
-		// if it's not the value of a 0 (48.(rune)) set it
 		col := i % 9
 		row := (i - col) / 9
 		b.Cells[row][col] = &cell{}
@@ -259,7 +255,7 @@ func (b *board) Ingest(numString string) error {
 				return errors.New("board.Ingest() expecting value between " +
 					"1 and 9; got:" + strconv.Itoa(int(parsedVal)))
 			}
-			b.Cells[row][col].setCell(parsedVal)
+			b.Cells[row][col].set(parsedVal)
 		} else if val == 48 {
 			b.Cells[row][col].setEmpty()
 		} else {
@@ -268,7 +264,7 @@ func (b *board) Ingest(numString string) error {
 		}
 	}
 
-	b.rmNotPossibles()
+	b.rmNotCandidates()
 
 	return nil
 }
@@ -291,7 +287,7 @@ func cellsAreValid(cells [9]*cell) bool {
 	assertOnes := map[int]int{1: 0, 2: 0, 3: 0, 4: 0,
 		5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
 	for _, cell := range cells {
-		intVal := int(cell.Value)
+		intVal := int(cell.Digit)
 		assertOnes[intVal]++
 		if intVal != 0 && assertOnes[intVal] > 1 {
 			fmt.Println("index:", intVal, "seems to be >1 occurrences")
@@ -306,35 +302,25 @@ func cellsAreValid(cells [9]*cell) bool {
 func SolveNakedSingles(b *board) int {
 	solves := b.solveNakedSingles()
 	sum := 0
-	b.rmNotPossibles()
+	b.rmNotCandidates()
 	for solves > 0 {
 		solves = b.solveNakedSingles()
 		sum += solves
-		b.rmNotPossibles()
+		b.rmNotCandidates()
 	}
 	return sum
 }
 
 func SolveHiddenSingles(b *board) int {
 	sum := 0
-	solves := 0
-	solves += b.solveHiddenSingles(getRow)
-	b.rmNotPossibles()
-	solves += b.solveHiddenSingles(getCol)
-	b.rmNotPossibles()
-	solves += b.solveHiddenSingles(getSet)
-	b.rmNotPossibles()
-	sum += solves
+	solves := 1
+	getters := []func(*board, int) [9]*cell{getRow, getCol, getSet}
 	for solves > 0 {
 		solves = 0
-		solves += b.solveHiddenSingles(getRow)
-		b.rmNotPossibles()
-		solves += b.solveHiddenSingles(getCol)
-		b.rmNotPossibles()
-		solves += b.solveHiddenSingles(getSet)
-		b.rmNotPossibles()
-		//fmt.Println("number of solves", solves)
-		sum += solves
+		for _, getter := range getters {
+			solves += b.solveHiddenSingles(getter)
+			b.rmNotCandidates()
+		}
 	}
 	return sum
 }
