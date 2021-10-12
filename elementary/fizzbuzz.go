@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+// TODO fizzbuzz is faster if you do it with addition
+
 // FizzBuzz takes a limit number of iterations and a test flag for returning a string rather than printing and returning ""
 func FizzBuzz(limit int64, test bool) string {
 	// iterate until overflow?
