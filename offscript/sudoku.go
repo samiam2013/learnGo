@@ -298,9 +298,8 @@ func cellsAreValid(cells [9]*cell) bool {
 // SolveHiddenSingles takes in a board and solves hidden singles until
 //	it can find no more and returns the number of cells filled.
 func SolveNakedSingles(b *board) int {
-	solves := b.solveNakedSingles()
 	sum := 0
-	b.rmNotCandidates()
+	solves := 1 // to pass into the loop
 	for solves > 0 {
 		solves = b.solveNakedSingles()
 		sum += solves
@@ -311,8 +310,8 @@ func SolveNakedSingles(b *board) int {
 
 func SolveHiddenSingles(b *board) int {
 	sum := 0
-	solves := 1
 	getters := []func(*board, int) [9]*cell{getRow, getCol, getSet}
+	solves := 1 // to pass into the loop
 	for solves > 0 {
 		solves = 0
 		for _, getter := range getters {
