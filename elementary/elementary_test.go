@@ -216,6 +216,38 @@ func TestFizzBuzz(t *testing.T) {
 
 }
 
+func TestFizzBuzzFaster(t *testing.T) {
+	response := fizzBuzzFaster(15, true)
+	noLastNewLine := response[:strings.LastIndex(response, "\n")]
+	t.Log(noLastNewLine)
+	lastLine := noLastNewLine[strings.LastIndex(noLastNewLine, "\n")+1:]
+	correct := "fizzbuzz"
+	if lastLine != correct {
+		t.Errorf("FizzBuzz() = '%s'; want '%s'", lastLine, correct)
+	}
+
+}
+
+var retString string
+
+func BenchFizzBuzz(b *testing.B, fizzBuzzer func(int64, bool) string) {
+	var lastLine string
+	for n := 0; n < b.N; n++ {
+		responseLines := fizzBuzzer(15, true)
+		noLastNewLine := responseLines[:strings.LastIndex(responseLines, "\n")]
+		lastLine = noLastNewLine[strings.LastIndex(noLastNewLine, "\n")+1:]
+	}
+	retString = lastLine
+}
+
+func BenchmarkFizzBuzzMod(b *testing.B) {
+	BenchFizzBuzz(b, FizzBuzz)
+}
+
+func BenchmarkFizzBuzzAdd(b *testing.B) {
+	BenchFizzBuzz(b, fizzBuzzFaster)
+}
+
 func TestAnagrams(t *testing.T) {
 	testCases := map[[2]string]bool{
 		{"dormitory", "dirtyroom"}:         true,
@@ -240,6 +272,25 @@ func TestAnagrams(t *testing.T) {
 			}
 		}
 	}
+}
+
+var retBool bool
+
+// from fib_test.go
+func BenchAnagramFunc(b *testing.B, anagramFunc func(string, string) bool) {
+	// run the Fib function b.N times
+	var isIndeed bool
+	for n := 0; n < b.N; n++ {
+		isIndeed = anagramFunc("astronomer", "moonstarer")
+	}
+	retBool = isIndeed //keeps compiler from optimizing away function call
+}
+
+func BenchmarkHashAnagram(b *testing.B) {
+	BenchAnagramFunc(b, IsAnagramFast)
+}
+func BenchmarkQSortAnagram(b *testing.B) {
+	BenchAnagramFunc(b, IsAnagram)
 }
 
 func TestAlternatingSeries(t *testing.T) {

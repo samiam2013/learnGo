@@ -17,16 +17,6 @@ func main() {
 	// elementary.PrintPrimeSeiveP(10)
 	// elementary.Next20LeapYears()
 
-	// // previously CopmareAnagrams() TODO: testing duration stuff instead?
-	// start := time.Now()
-	// elementary.IsAnagram("listen", "silent")
-	// duration := time.Since(start)
-	// fmt.Println("slow version", duration)
-	// start = time.Now()
-	// fmt.Println("listen, silent: ", elementary.IsAnagramFast("listen", "silent"))
-	// duration2 := time.Since(start)
-	// fmt.Println("fast version", duration2)
-
 	// intermediate.Ex01()
 	// listsandstrings.Ex01()
 
