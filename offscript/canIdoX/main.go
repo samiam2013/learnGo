@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"time"
 )
@@ -10,13 +9,11 @@ import (
 func logFromGoroutineWithCallback() {
 	c := make(chan func())
 	go func(callback chan func()) {
-		newCallback := func() {
-			log.Println("this is a log print called from a callback mutated by a go routine")
+		callback <- func() {
+			log.Println("log called from func() returned over a channel by a go routine")
 		}
-		callback <- newCallback
 	}(c)
-	callback := <-c
-	callback()
+	(<-c)() // this doesn't look like anything but it calls the returned func()
 }
 
 func logFromGoroutine() {
@@ -34,7 +31,7 @@ func panicFromGoroutine() {
 var stringToMutate = "Hello World"
 
 func mutateWithGoroutine() {
-	fmt.Println("before goroutine mutation:", stringToMutate)
+	log.Println("before goroutine mutation:", stringToMutate)
 	// open a bool channel to block for goroutine to finish
 	//	when waiting to check value again
 	c := make(chan bool)
@@ -44,14 +41,15 @@ func mutateWithGoroutine() {
 	}(&stringToMutate, c)
 	_ = <-c // blocking here
 
-	fmt.Println("after goroutine mutation:", stringToMutate)
+	log.Println("after goroutine mutation:", stringToMutate)
 
 }
 
 func main() {
 	// can I ...
 	logFromGoroutine()
-	// no you can't.
+	// no you can't. not unless you twiddle your thumbs and wait for it
+	// or create a channel to return it
 
 	// can I ...
 	logFromGoroutineWithCallback()
