@@ -8,7 +8,7 @@ func Test_mutateWithGoroutine(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "this is the barest emptiest test case ever",
+			name: "this example was put to experiment with the --race flag",
 		},
 	}
 	for _, tt := range tests {
