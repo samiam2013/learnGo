@@ -1,12 +1,21 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 	"log"
+	"math"
 
 	"github.com/fogleman/gg"
 	"github.com/hajimehoshi/ebiten/v2"
 )
+
+const groundHeight = 35
+const gameWidth = 320
+const gameHeight = 240
+
+// G is the "gravitational" constatn
+const G = 1
 
 // Game implements ebiten.Game interface.
 type Game struct {
@@ -18,10 +27,10 @@ type Game struct {
 
 type ball struct {
 	radius       int
-	vSpeed       float32
-	hSpeed       float32
-	vPos         int
-	hPos         int
+	vSpeed       float64
+	hSpeed       float64
+	vPos         float64
+	hPos         float64
 	image        *ebiten.Image
 	imageOptions *ebiten.DrawImageOptions
 }
@@ -29,9 +38,29 @@ type ball struct {
 // applyGravity updates the position and speed of the ball for a single tick
 func (b *ball) applyGravity() {
 	// make the change according to the current speed
+	b.vPos += b.vSpeed
+	fmt.Println("vpos:", b.vPos, "vspeed", b.vSpeed)
+	// if vPos is less than ground height + radius, invert vSpeed (* -1)
+	if b.vPos <= float64(groundHeight+b.radius) {
+		b.vSpeed *= -1
+		b.vPos += math.Abs(b.vSpeed)
+	}
+	b.hPos += b.hSpeed
+	fmt.Println("hpos:", b.hPos, "hspeed:", b.hSpeed)
+	// if hPos is less than 0 + radius or width - radius invert hSpeed
+	if b.hPos <= float64(b.radius) || b.hPos >= float64(gameWidth-b.radius) {
+		b.hSpeed *= -1
+		if b.hPos-float64(b.radius) <= 0 {
+			b.hPos += b.hSpeed
+		} else {
+			b.hPos -= b.hSpeed
+		}
 
-	// computer the change in speed for 1/60 of a second
+	}
 
+	// compute the change in speed for 1/60 of a second
+	fmt.Println("vspeed:", b.vSpeed)
+	b.vSpeed -= (1.0 / 60.0) * G
 }
 
 func (b *ball) makeImage() *ebiten.Image {
@@ -49,7 +78,9 @@ func (b *ball) makeImage() *ebiten.Image {
 // Update is called every tick (1/60 [s] by default).
 func (g *Game) Update() error {
 	// Write your game's logical update.
-
+	g.ball.applyGravity()
+	g.ball.imageOptions = &ebiten.DrawImageOptions{}
+	g.ball.imageOptions.GeoM.Translate(float64(g.ball.hPos), float64(g.ball.vPos))
 	return nil
 }
 
@@ -58,17 +89,14 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	// Write your game's rendering.
 	screen.DrawImage(g.ground, g.groundOptions)
-	g.ball.applyGravity()
 	screen.DrawImage(g.ball.image, g.ball.imageOptions)
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.
 // If you don't have to adjust the screen size with the outside size, just return a fixed size.
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 320, 240
+	return gameWidth, gameHeight
 }
-
-const groundHeight = 35
 
 func main() {
 
@@ -77,7 +105,7 @@ func main() {
 	ebiten.SetWindowTitle("Bouncing Ball")
 
 	game := &Game{
-		ball:          ball{radius: 20, vSpeed: 100, hSpeed: -10, vPos: 80, hPos: 10},
+		ball:          ball{radius: 20, vSpeed: 0.1, hSpeed: -1, vPos: 80, hPos: 10},
 		ground:        ebiten.NewImage(320, groundHeight),
 		groundOptions: &ebiten.DrawImageOptions{},
 	}
