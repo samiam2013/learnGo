@@ -1,0 +1,4 @@
+
+# don't save the binary or dep install script
+5-gui
+exercise01debianDeps.sh
