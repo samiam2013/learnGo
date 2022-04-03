@@ -53,7 +53,7 @@ func (b *ball) applyGravity() {
 		if b.hPos-float64(b.radius) <= 0 {
 			b.hPos += b.hSpeed
 		} else {
-			b.hPos -= b.hSpeed
+			b.hPos += b.hSpeed
 		}
 
 	}
@@ -80,7 +80,7 @@ func (g *Game) Update() error {
 	// Write your game's logical update.
 	g.ball.applyGravity()
 	g.ball.imageOptions = &ebiten.DrawImageOptions{}
-	g.ball.imageOptions.GeoM.Translate(float64(g.ball.hPos), float64(g.ball.vPos))
+	g.ball.imageOptions.GeoM.Translate(float64(g.ball.hPos), float64(gameHeight-g.ball.vPos))
 	return nil
 }
 
@@ -105,7 +105,7 @@ func main() {
 	ebiten.SetWindowTitle("Bouncing Ball")
 
 	game := &Game{
-		ball:          ball{radius: 20, vSpeed: 0.1, hSpeed: -1, vPos: 80, hPos: 10},
+		ball:          ball{radius: 20, vSpeed: 1.5, hSpeed: -1, vPos: 120, hPos: 100},
 		ground:        ebiten.NewImage(320, groundHeight),
 		groundOptions: &ebiten.DrawImageOptions{},
 	}
