@@ -3,7 +3,6 @@ package main
 import (
 	"image/color"
 	"log"
-	"math"
 
 	"github.com/fogleman/gg"
 	"github.com/hajimehoshi/ebiten/v2"
@@ -37,23 +36,18 @@ type ball struct {
 // applyGravity updates the position and speed of the ball for a single tick
 func (b *ball) applyGravity() {
 	// make the change according to the current speed
-	b.vPos += b.vSpeed
 	// if vPos is less than ground height + radius, invert vSpeed (* -1)
-	if b.vPos <= float64(groundHeight+(b.radius*2)) {
+	if b.vPos <= float64(groundHeight+((b.radius*2)+3)) {
 		b.vSpeed *= -1
-		b.vPos += math.Abs(b.vSpeed)
+		b.vSpeed *= 0.90
+	}
+	b.vPos += b.vSpeed
+	// if hPos is less than 0 + radius or width - radius invert hSpeed
+	if b.hPos <= 0 || b.hPos >= float64(gameWidth-(b.radius*2)-1) {
+		b.hSpeed *= -1
+		b.hSpeed *= 0.90
 	}
 	b.hPos += b.hSpeed
-	// if hPos is less than 0 + radius or width - radius invert hSpeed
-	if b.hPos <= 0 || b.hPos >= float64(gameWidth-(b.radius*2)) {
-		b.hSpeed *= -1
-		if b.hPos-float64(b.radius) <= 0 {
-			b.hPos += b.hSpeed
-		} else {
-			b.hPos += b.hSpeed
-		}
-
-	}
 
 	// compute the change in speed for 1/60 of a second
 	b.vSpeed -= (1.0 / 60.0) * G
@@ -101,12 +95,19 @@ func main() {
 	ebiten.SetWindowTitle("Bouncing Ball")
 
 	game := &Game{
-		ball:          ball{radius: 20, vSpeed: 1.5, hSpeed: -1, vPos: 120, hPos: 100},
+		ball: ball{
+			radius: 20,
+			vSpeed: 1.5,
+			hSpeed: -1,
+			vPos:   120,
+			hPos:   100,
+		},
 		ground:        ebiten.NewImage(320, groundHeight),
 		groundOptions: &ebiten.DrawImageOptions{},
 	}
 	game.ground.Fill(color.RGBA{25, 150, 25, 0xff})
 	game.groundOptions.GeoM.Translate(0.0, 240.0-groundHeight)
+
 	game.ball.image = game.ball.makeImage()
 	game.ball.imageOptions = &ebiten.DrawImageOptions{}
 	game.ball.imageOptions.GeoM.Translate(float64(game.ball.hPos), float64(game.ball.vPos))
