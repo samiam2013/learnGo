@@ -14,7 +14,7 @@ const gameWidth = 320
 const gameHeight = 240
 
 // G is the "gravitational" constatn
-const G = 1
+const G = 2
 
 // Game implements ebiten.Game interface.
 type Game struct {
