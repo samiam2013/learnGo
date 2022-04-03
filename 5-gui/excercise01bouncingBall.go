@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image/color"
 	"log"
 	"math"
@@ -39,16 +38,14 @@ type ball struct {
 func (b *ball) applyGravity() {
 	// make the change according to the current speed
 	b.vPos += b.vSpeed
-	fmt.Println("vpos:", b.vPos, "vspeed", b.vSpeed)
 	// if vPos is less than ground height + radius, invert vSpeed (* -1)
-	if b.vPos <= float64(groundHeight+b.radius) {
+	if b.vPos <= float64(groundHeight+(b.radius*2)) {
 		b.vSpeed *= -1
 		b.vPos += math.Abs(b.vSpeed)
 	}
 	b.hPos += b.hSpeed
-	fmt.Println("hpos:", b.hPos, "hspeed:", b.hSpeed)
 	// if hPos is less than 0 + radius or width - radius invert hSpeed
-	if b.hPos <= float64(b.radius) || b.hPos >= float64(gameWidth-b.radius) {
+	if b.hPos <= 0 || b.hPos >= float64(gameWidth-(b.radius*2)) {
 		b.hSpeed *= -1
 		if b.hPos-float64(b.radius) <= 0 {
 			b.hPos += b.hSpeed
@@ -59,7 +56,6 @@ func (b *ball) applyGravity() {
 	}
 
 	// compute the change in speed for 1/60 of a second
-	fmt.Println("vspeed:", b.vSpeed)
 	b.vSpeed -= (1.0 / 60.0) * G
 }
 
