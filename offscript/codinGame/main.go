@@ -1,6 +1,9 @@
-package main
+package codingame
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 /**
  * Auto-generated code below aims at helping you parse
@@ -17,7 +20,7 @@ func countLengths(input string) (out string) {
 			continue
 		}
 		if sum > 1 {
-			out += fmt.Sprintf("%d ", sum)
+			out += strconv.Itoa(sum) + " "
 			sum = 0
 		}
 
