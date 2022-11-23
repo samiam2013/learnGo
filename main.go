@@ -2,7 +2,7 @@ package main
 
 import (
 	// "github.com/samiam2013/learnGo/elementary"
-	//"github.com/samiam2013/learnGo/intermediate"
+	intermediate "github.com/samiam2013/learnGo/2-intermediate"
 	//"github.com/samiam2013/learnGo/listsandstrings"
 	"github.com/samiam2013/learnGo/offscript"
 )
@@ -25,4 +25,6 @@ func main() {
 	offscript.RunSudoku()
 
 	//intermediate.BinTreeHeapSort()
+
+	intermediate.GenerateLeapYearRule(365.2422)
 }
