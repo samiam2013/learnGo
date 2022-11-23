@@ -3,8 +3,6 @@ package main
 import (
 	// "github.com/samiam2013/learnGo/elementary"
 	intermediate "github.com/samiam2013/learnGo/2-intermediate"
-	//"github.com/samiam2013/learnGo/listsandstrings"
-	"github.com/samiam2013/learnGo/offscript"
 )
 
 func main() {
@@ -22,7 +20,7 @@ func main() {
 
 	//elementary.GuessingGame()
 
-	offscript.RunSudoku()
+	//offscript.RunSudoku()
 
 	//intermediate.BinTreeHeapSort()
 
