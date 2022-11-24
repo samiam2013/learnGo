@@ -17,17 +17,23 @@ func exercise02() {
 
 func GenerateLeapYearRule(days float64) {
 	extraDay := days - math.Floor(days)
-	//lastFreq := 2
-	for i := float64(2); i <= 1000000; i++ {
-		if extraDay > (1 / i) {
-			fmt.Println("have to have a leap year every " + strconv.Itoa(int(i-1)) + " years")
-			extraDay -= (1 / (i - 1))
-			//lastFreq = int(i - 1)
-		} else if math.Abs(extraDay) > (1/i) && int(i)%100 == 0 {
-			fmt.Println("have to remove a leap year every " + strconv.Itoa(int(i)) + " years")
-			extraDay += (1 / i)
+	lastFreq := 2
+	for i := float64(2); i <= 100_000; i++ {
+		// skip if it's not a multiple of the last frequency
+		// . or if it's less than 100 or not a multiple of 100
+		if int(i)%lastFreq != 0 || !(i < 100 || int(i)%100 == 0) {
+			continue
 		}
-		//fmt.Printf("extra day: %f, 1/i: %f\n", extraDay, 1/i)
+		if extraDay >= ((1 / i) - ((1 / i) * 0.10)) {
+			fmt.Println("have to have a leap year every " + strconv.Itoa(int(i)) + " years")
+			extraDay -= (1 / (i))
+			lastFreq = int(i)
+		}
+		if extraDay <= -((1 / i) + ((1 / i) * 0.10)) {
+			fmt.Println("have to skip a leap year every " + strconv.Itoa(int(i)) + " years")
+			extraDay += (1 / (i))
+			lastFreq = int(i)
+		}
 	}
-	fmt.Println("remaining fraction day per year: ", extraDay)
+	fmt.Printf("remaining fraction day per year: %f\n", extraDay)
 }
