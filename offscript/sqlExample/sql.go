@@ -7,6 +7,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// example from https://www.calhoun.io/inserting-records-into-a-postgresql-database-with-gos-database-sql-package/
+
 const (
 	host     = "localhost"
 	port     = 5432
