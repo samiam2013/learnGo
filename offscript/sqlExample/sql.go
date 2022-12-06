@@ -28,9 +28,9 @@ func main() {
 	defer db.Close()
 
 	sqlStatement := `
-	INSERT INTO users (age, email, first_name, last_name)
-	VALUES ($1, $2, $3)
-	RETURNING id`
+		INSERT INTO users (age, email, first_name, last_name)
+			VALUES ($1, $2, $3)
+		RETURNING id`
 	id := 0
 	err = db.QueryRow(sqlStatement, 30, "jon@calhoun.io", "Jonathan", "Calhoun").Scan(&id)
 	if err != nil {
