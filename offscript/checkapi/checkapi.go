@@ -66,16 +66,16 @@ func main() {
 
 }
 
-func printKeys(v interface{}, prefix string) (result []string) {
-	switch v := v.(type) {
+func printKeys(val interface{}, prefix string) (result []string) {
+	switch val := val.(type) {
 	case map[string]interface{}:
-		for k := range v {
+		for k, v := range val {
 			// fmt.Println(k)
-			result = append(result, prefix+"."+k)
-			result = append(result, printKeys(v[k], prefix+"."+k)...)
+			result = append(result, prefix+"."+k+fmt.Sprintf("(%T)", v))
+			result = append(result, printKeys(v, prefix+"."+k)...)
 		}
 	case []interface{}:
-		for _, u := range v {
+		for _, u := range val {
 			result = printKeys(u, "")
 		}
 	}
