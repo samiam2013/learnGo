@@ -1,12 +1,10 @@
 package main
 
 import (
-	"log"
 	"strconv"
 )
 
-func fizzBuzzModulo(max int) []string {
-	var list []string
+func fizzBuzzModulo(max int) {
 	for i := 1; i <= max; i++ {
 		value := ""
 		if i%3 == 0 {
@@ -18,13 +16,11 @@ func fizzBuzzModulo(max int) []string {
 		if value == "" {
 			value = strconv.Itoa(i)
 		}
-		list = append(list, value)
+		_ = value
 	}
-	return list
 }
 
-func fizzBuzzAddition(max int) []string {
-	var list []string
+func fizzBuzzAddition(max int) {
 	nextFizz := 3
 	nextBuzz := 5
 	for i := 1; i <= max; i++ {
@@ -40,20 +36,22 @@ func fizzBuzzAddition(max int) []string {
 		if value == "" {
 			value = strconv.Itoa(i)
 		}
-		list = append(list, value)
+		_ = value
 	}
-	return list
 }
 
 func main() {
-	const listLength = 100
-	results := [][]string{
-		fizzBuzzAddition(listLength),
-		fizzBuzzModulo(listLength),
-	}
-	for i := 0; i < len(results[0]); i++ {
-		if results[0][i] != results[1][i] {
-			log.Fatal("Error (mismatch): ", results[0][i], results[1][i])
-		}
-	}
+
+	// use `go test -bench=.`
+
+	// const listLength = 100
+	// results := [][]string{
+	// 	fizzBuzzAddition(listLength),
+	// 	fizzBuzzModulo(listLength),
+	// }
+	// for i := 0; i < len(results[0]); i++ {
+	// 	if results[0][i] != results[1][i] {
+	// 		log.Fatal("Error (mismatch): ", results[0][i], results[1][i])
+	// 	}
+	// }
 }
