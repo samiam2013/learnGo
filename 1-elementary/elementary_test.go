@@ -5,6 +5,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math"
 	"math/big"
 	"os"
 	"strconv"
@@ -295,13 +296,14 @@ func BenchmarkQSortAnagram(b *testing.B) {
 
 func TestAlternatingSeries(t *testing.T) {
 	response := AlternatingSeries()
-	correct := float64(-1.8274410005639339)
+	correct := big.NewFloat(math.Pi)
 	if response != correct {
 		t.Errorf("AlternatingSeries() = '%v'; want '%v'", response, correct)
 	}
 }
 
 // captureOutput takes in a function to catch the output,
+//
 //	optionally taking in lines of input for stdin
 func captureOutput(f func(), input string) string {
 	reader, writer, err := os.Pipe()
