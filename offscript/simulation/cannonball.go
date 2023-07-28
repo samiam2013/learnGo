@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 	"time"
 )
@@ -26,27 +27,38 @@ func NewCar(mpg, topMPH, fuel float64) Car {
 	}
 }
 
+func NewRandomCar() Car {
+	// random mpg 20-40, random top speed 110 - 160, random fuelGal 12-40
+	//nolint this isn't a cryptographic use of rand
+	var (mpg =  float64( 20 + rand.Int63n(20))
+		top = float64(110 + rand.Int63n(50))
+		fuel = float64(12 + rand.Int63n(28)))
+	return NewCar(mpg, top, fuel)
+}
+
 func (c *Car) Refuel() {
-	// TODO calculate distance left and factor into decision
-	// fmt.Println("refueling")
+	log.Println("refueling")
 	if RaceLength-c.PosMi < c.MPG*1.0 {
-		c.timeElapsed += (3 * time.Minute)
+		c.timeElapsed += 3 * time.Minute
 		c.FuelGal += 1.2
 		return
 	}
-	c.timeElapsed += (20 * time.Minute)
+	c.timeElapsed += 20 * time.Minute
 	c.FuelGal = c.FuelCap
 }
 
-func (c *Car) TravelFor(d time.Duration) {
+func (c *Car) Travel(d time.Duration) {
 	gallonsPerMile := 1 / c.MPG
 	c.timeElapsed += d
-	fh := float64(d.Nanoseconds()) / float64(time.Hour.Nanoseconds()) // = distance in miles
-	// fmt.Println(fh, " fraction of an hour travelled")
+	hrNS := float64(time.Hour.Nanoseconds())
+	dt := float64(d.Nanoseconds())
+	fh := dt / hrNS // fraction in hours
 	dis := c.TopMPH * fh
-	// fmt.Println("travelled", d, "miles")
 	c.PosMi += dis
-	c.FuelGal -= (gallonsPerMile * dis)
+	c.FuelGal -= gallonsPerMile * dis
+
+	log.Println(fh, " fraction of an hour travelled")
+	log.Println("travelled", d, "miles")
 }
 
 func (c *Car) String() string {
@@ -54,26 +66,18 @@ func (c *Car) String() string {
 		"finished in %s", c.TopMPH, c.MPG, c.FuelGal, c.timeElapsed)
 }
 
-func NewRandomCar() Car {
-	// random mpg 20-40, random top speed 110 - 160, random fuelGal 12-40
-	//nolint this isn't a cryptographic use of rand
-	mpg, top, fuel := float64(20+rand.Int63n(20)), float64(110+rand.Int63n(50)),
-		float64(12+rand.Int63n(28))
-	return NewCar(mpg, top, fuel)
-}
-
-func race(c Car, fC chan Car) {
+func race(c Car, length float64) {
 	loopTime := time.Millisecond * 250
 	for {
 		// drive for one minute at top speed
-		c.TravelFor(loopTime)
+		c.Travel(loopTime)
 		// if fuel < 1 gallon
 		if c.FuelGal < 1.00 {
 			c.Refuel()
 		}
 
 		// if you've driven past the finish line send finish signal and exit
-		if c.PosMi >= RaceLength {
+		if c.PosMi >= length {
 			fmt.Printf("Car %s finished\n", c.String())
 			return
 		}
@@ -86,9 +90,7 @@ func main() {
 	a := NewRandomCar()
 	b := NewRandomCar()
 
-	finishC := make(chan Car, 1)
-
-	race(a, finishC)
-	race(b, finishC)
+	race(a, RaceLength)
+	race(b, RaceLength)
 
 }
