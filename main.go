@@ -2,7 +2,9 @@ package main
 
 import (
 	// "github.com/samiam2013/learnGo/elementary"
-	intermediate "github.com/samiam2013/learnGo/2-intermediate"
+	"fmt"
+
+	elementary "github.com/samiam2013/learnGo/1-elementary"
 )
 
 func main() {
@@ -14,6 +16,7 @@ func main() {
 	// elementary.PrintPrimeSeive(10, true)
 	// elementary.PrintPrimeSeiveP(10)
 	// elementary.Next20LeapYears()
+	fmt.Print(elementary.AlternatingSeries())
 
 	// intermediate.Ex01()
 	// listsandstrings.Ex01()
@@ -24,5 +27,5 @@ func main() {
 
 	//intermediate.BinTreeHeapSort()
 
-	intermediate.GenerateLeapYearRule(365.2422)
+	// intermediate.GenerateLeapYearRule(365.2422)
 }

@@ -296,10 +296,16 @@ func BenchmarkQSortAnagram(b *testing.B) {
 
 func TestAlternatingSeries(t *testing.T) {
 	response := AlternatingSeries()
-	correct := big.NewFloat(math.Pi)
-	if response != correct {
+	correct := math.Pi // big.NewFloat(math.Pi)
+	if !within(response, correct, .001) {
 		t.Errorf("AlternatingSeries() = '%v'; want '%v'", response, correct)
 	}
+}
+
+func within(a, b, tolerance float64) bool {
+	difference := math.Abs(a - b)
+	belowTolerance := difference < tolerance
+	return belowTolerance
 }
 
 // captureOutput takes in a function to catch the output,
