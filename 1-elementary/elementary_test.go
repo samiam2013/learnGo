@@ -302,9 +302,24 @@ func TestAlternatingSeries(t *testing.T) {
 	}
 }
 
+func TestAlternatingSeriesBig(t *testing.T) { 
+	response := AlternatingSeriesBig()
+	correct := big.NewFloat(math.Pi)
+	if !withinBig(response, correct, big.NewFloat(.001)) {
+		t.Errorf("AlternatingSeries() = '%v'; want '%v'", response, correct)
+	}
+}
+
 func within(a, b, tolerance float64) bool {
 	difference := math.Abs(a - b)
 	belowTolerance := difference < tolerance
+	return belowTolerance
+}
+
+func withinBig(a, b, tolerance *big.Float) bool {
+	difference := a.Sub(a, b)
+	absDiff := new(big.Float).Abs(difference)
+	belowTolerance := absDiff.Cmp(tolerance) == -1
 	return belowTolerance
 }
 
