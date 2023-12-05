@@ -6,7 +6,10 @@ require github.com/fogleman/gg v1.3.0
 
 require github.com/hajimehoshi/ebiten/v2 v2.2.5
 
-require golang.org/x/term v0.11.0
+require (
+	golang.org/x/term v0.11.0
+	google.golang.org/protobuf v1.31.0
+)
 
 require (
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20210727001814-0db043d8d5be // indirect

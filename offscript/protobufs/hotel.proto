@@ -1,0 +1,12 @@
+syntax = "proto3";
+package protoproto;
+
+option go_package = "./protobuf";
+
+message hotel {
+  int32 id = 1;
+  string name = 2;
+  string address = 3;
+  float lattitude = 4;
+  float longitude = 5;
+}
