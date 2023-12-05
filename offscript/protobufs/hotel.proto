@@ -1,6 +1,9 @@
 syntax = "proto3";
 package protoproto;
 
+// from insie this folder run 
+// protoc --go_out=. hotel.proto
+
 option go_package = "./protobuf";
 
 message hotel {
