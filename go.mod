@@ -8,7 +8,7 @@ require github.com/hajimehoshi/ebiten/v2 v2.2.5
 
 require (
 	golang.org/x/term v0.11.0
-	google.golang.org/protobuf v1.31.0
+	google.golang.org/protobuf v1.33.0
 )
 
 require (
