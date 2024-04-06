@@ -17,6 +17,7 @@ require (
 	github.com/jezek/xgb v0.0.0-20210312150743-0e0f116e1240 // indirect
 	github.com/lib/pq v1.10.7
 	github.com/mattn/go-isatty v0.0.19
+	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/exp v0.0.0-20190731235908-ec7cb31e5a56 // indirect
 	golang.org/x/image v0.10.0 // indirect
 	golang.org/x/mobile v0.0.0-20210902104108-5d9a33257ab5 // indirect
